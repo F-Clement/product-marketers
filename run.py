@@ -44,7 +44,7 @@ def get_average_sales():
         average_sales = [facebook, youtube, instagram, tiktok]
         if(validate_sales_count(average_sales)):
         
-            print("Thank you! We will now work on the data you have provide.")
+            print("Thank you! Let's build a marketing strategy based on the data you have provided.")
             return average_sales
 
 def validate_sales_count(sales_data):
@@ -60,5 +60,28 @@ def validate_sales_count(sales_data):
         return False
     return True
 
-average_sales = get_average_sales()
-print(f"Sale values provided for the platforms facebook, youtube, Instagram and TikTok respectively\n{average_sales}")
+def update_average_sales_worksheet(sales_data):
+    """
+    Update the averages sales work sheet with the sales values the user provided
+    """
+    print(f"Adding sales values you provided to average sales work sheet......")
+    average_sales_sheet = SHEET.worksheet('average_sales')
+    average_sales_sheet.append_row(sales_data)
+    print(f"Average sales values uploaded successfully to average sales worksheet.")
+
+def update_diff_btw_clicks_and_sales(data, click):
+    """
+    Update our diff_btw_clics_sales worksheet
+    Data to update comes from subtracting number of sales from number of clicks for each platform
+    """
+    print(f"We calculate the difference between click and sales and add to diff_btw_clicks_sales worksheet")
+    diff_btw_clicks_sales_sheet = SHEET.worksheet('diff_btw_clicks_and_sales')
+    diff = [clicks - int(value) for value in data]
+    diff_btw_clicks_sales_sheet.append_row(diff)
+    print(f"This Data {diff} was uploaded successfully\n")
+
+sales = get_average_sales()
+average_sales = [int(sale) for sale in sales]
+print(f"Sale values provided for the platforms facebook, youtube, Instagram and TikTok respectively\n{average_sales}\n")
+update_average_sales_worksheet(average_sales)
+update_diff_btw_clicks_and_sales(average_sales, clicks)
