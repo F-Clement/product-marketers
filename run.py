@@ -17,7 +17,13 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('product_marketers')
 
 
-average_sales = SHEET.worksheet('average_sales')
+print("_____----------Welcome To Product Marketers----------_____ \n")
+print("Enter the name of the product you sell. Example Phones, courses, cars etc.")
+product = input("Produt:")
 
-data = average_sales.get_all_values()
-print(data)
+print(f"Great! How much have you been ivesting to advertise {product} on Facebook, Youtube,Instagram and Tiktok?")
+budget = input("Budget:")
+
+investment_per_platform = float(budget)/4
+clicks = int(investment_per_platform / 2)
+print(f"So you have been investing {investment_per_platform}€ on each advertising platform. Thus approximately {clicks} clicks per week.")
