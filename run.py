@@ -18,34 +18,34 @@ SHEET = GSPREAD_CLIENT.open('product_marketers')
 
 
 print("_____----------Welcome To Product Marketers----------_____ \n")
-
-
 print("Enter the name of the product you sell. Example Phones, courses, cars etc.")
 product = input("Produt:")
-
 print(f"How much have you been ivesting to advertise {product} on Facebook, Youtube,Instagram and Tiktok?")
 while True:
     budget = input("Budget: $")
     if budget.isdigit():
         break
     else:
-        print(f"The Budget must be an interger. Verify that you have the correct information and start again.")
+        print(f"The Budget must be an interger.")
 investment_per_platform = float(budget)/4
 clicks = int(investment_per_platform / 2)
 print(f"So you have been investing {investment_per_platform}€ on each advertising platform. Thus approximately {clicks} clicks per week.\n")
 
 def get_average_sales():
     """
-    Get number of sales made on each platform
+    Get average number of sales made on each platform
     """
-    print(f"What is the average number of sales you make on each of the platforms?")
-    facebook = input("Facebook:")
-    youtube = input("Youtube:")
-    instagram = input("Instagram:")
-    tiktok = input("TikTok:")
-    average_sales = [facebook, youtube, instagram, tiktok]
-    
-    validate_sales_count(average_sales)
+    while True:
+        print(f"What is the average number of sales you make on each of the platforms?")
+        facebook = input("Facebook:")
+        youtube = input("Youtube:")
+        instagram = input("Instagram:")
+        tiktok = input("TikTok:")
+        average_sales = [facebook, youtube, instagram, tiktok]
+        if(validate_sales_count(average_sales)):
+        
+            print("Thank you! We will now work on the data you have provide.")
+            return average_sales
 
 def validate_sales_count(sales_data):
     try:
@@ -57,5 +57,8 @@ def validate_sales_count(sales_data):
                 )
     except ValueError as e:
         print(f"Invalid data: {e} Please enter Integer values for sales made")
+        return False
+    return True
 
-get_average_sales()
+average_sales = get_average_sales()
+print(f"Sale values provided for the platforms facebook, youtube, Instagram and TikTok respectively\n{average_sales}")
