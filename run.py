@@ -18,12 +18,18 @@ SHEET = GSPREAD_CLIENT.open('product_marketers')
 
 
 print("_____----------Welcome To Product Marketers----------_____ \n")
+
+
 print("Enter the name of the product you sell. Example Phones, courses, cars etc.")
 product = input("Produt:")
 
-print(f"Great! How much have you been ivesting to advertise {product} on Facebook, Youtube,Instagram and Tiktok?")
-budget = input("Budget: $")
-
+print(f"How much have you been ivesting to advertise {product} on Facebook, Youtube,Instagram and Tiktok?")
+while True:
+    budget = input("Budget: $")
+    if budget.isdigit():
+        break
+    else:
+        print(f"The Budget must be an interger. Verify that you have the correct information and start again.")
 investment_per_platform = float(budget)/4
 clicks = int(investment_per_platform / 2)
 print(f"So you have been investing {investment_per_platform}€ on each advertising platform. Thus approximately {clicks} clicks per week.\n")
