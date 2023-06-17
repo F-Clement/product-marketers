@@ -18,9 +18,11 @@ SHEET = GSPREAD_CLIENT.open('product_marketers')
 
 
 print("_____----------Welcome To Product Marketers----------_____ \n")
-print("Enter the name of the product you sell. Example Phones, courses, cars etc.")
+print("Enter the name of the product you sell.")
+print("Example Phones, courses, cars etc.")
 product = input("Produt:")
-print(f"How much have you been ivesting to advertise {product} on Facebook, Youtube,Instagram and Tiktok?")
+print(f"How much have you been ivesting to advertise {product}")
+print("on Facebook, Youtube,Instagram and Tiktok?")
 while True:
     budget = input("Budget: $")
     if budget.isdigit():
@@ -29,22 +31,23 @@ while True:
         print(f"The Budget must be an interger.")
 investment_per_platform = float(budget)/4
 clicks = int(investment_per_platform / 2)
-print(f"So you have been investing {investment_per_platform}€ on each advertising platform. Thus approximately {clicks} clicks per week.\n")
+print(f"We assume you have been investing {investment_per_platform}€ ")
+print("on each advertising platform. About {clicks} clicks / week.\n")
 
 def get_average_sales():
     """
     Get average number of sales made on each platform
     """
     while True:
-        print(f"What is the average number of sales you make on each of the platforms?")
+        print(f"What is the average number of sales you make")
+        print(f" on each of the platforms every week?")
         facebook = input("Facebook:")
         youtube = input("Youtube:")
         instagram = input("Instagram:")
         tiktok = input("TikTok:")
         average_sales = [facebook, youtube, instagram, tiktok]
         if(validate_sales_count(average_sales)):
-        
-            print("Thank you! Let's build a marketing strategy based on the data you have provided.")
+            print("Thank you! Building a marketing strategy now...")
             return average_sales
 
 def validate_sales_count(sales_data):
@@ -53,7 +56,8 @@ def validate_sales_count(sales_data):
         for sale in sales_data:
             if int(sale) > clicks:
                 raise ValueError(
-                    f"The input '{sale}' for sales is not correct. Number of Sales cannot be more than Number of clicks. \n"
+                    f"The input '{sale}' for sales is not correct."
+                    f"Number of Sales cannot be more than Number of clicks. \n"
                 )
     except ValueError as e:
         print(f"Invalid data: {e} Please enter Integer values for sales made")
@@ -88,7 +92,7 @@ def market_strategy(diff, clicks, investment):
     Calculations are based on the differences between clicks and sales to 
     know which platform is best for a particular product
     """
-    print(f"Calculating a better strategy to invest the the budget ({budget})....")
+    print(f"Calculating a better strategy to invest ${budget}....")
     strategised_investment = []
     for value in diff:
         if value >= clicks * 0.8:
@@ -105,6 +109,16 @@ def market_strategy(diff, clicks, investment):
             sum_to_invest = investment * 2
             strategised_investment.append(sum_to_invest)
     return strategised_investment
+
+def update_investment_strategy_worksheet(data, product):
+    """
+    Upload the calculated values from market_strategy function
+    """
+    investment_strategy_sheet = SHEET.worksheet('investment_strategy')
+    data.insert(0, product)
+    investment_strategy_sheet.append_row(data)
+    return data
+
             
 
 
@@ -115,3 +129,6 @@ update_average_sales_worksheet(average_sales)
 diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
 new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
 print(new_invest)
+investment_per_product = update_investment_strategy_worksheet(new_invest, product)
+print(investment_per_product)
+print(product)
