@@ -79,9 +79,39 @@ def update_diff_btw_clicks_and_sales(data, click):
     diff = [clicks - int(value) for value in data]
     diff_btw_clicks_sales_sheet.append_row(diff)
     print(f"This Data {diff} was uploaded successfully\n")
+    return diff
+
+
+def market_strategy(diff, clicks, investment):
+    """
+    Calculate how much should be invested on each social media platform.
+    Calculations are based on the differences between clicks and sales to 
+    know which platform is best for a particular product
+    """
+    print(f"Calculating a better strategy to invest the the budget ({budget})....")
+    strategised_investment = []
+    for value in diff:
+        if value >= clicks * 0.8:
+            sum_to_invest = investment/3
+            strategised_investment.append(sum_to_invest)
+        elif value >= clicks * 0.5:
+            sum_to_invest = investment/2
+            strategised_investment.append(sum_to_invest)
+        elif value >= clicks * 0.3:
+            sum_to_invest = investment
+            strategised_investment.append(sum_to_invest)
+        else:
+            value >= clicks * 0.1
+            sum_to_invest = investment * 2
+            strategised_investment.append(sum_to_invest)
+    return strategised_investment
+            
+
 
 sales = get_average_sales()
 average_sales = [int(sale) for sale in sales]
 print(f"Sale values provided for the platforms facebook, youtube, Instagram and TikTok respectively\n{average_sales}\n")
 update_average_sales_worksheet(average_sales)
-update_diff_btw_clicks_and_sales(average_sales, clicks)
+diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
+new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
+print(new_invest)
