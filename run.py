@@ -19,20 +19,23 @@ SHEET = GSPREAD_CLIENT.open('product_marketers')
 
 print("_____------Welcome To Product Marketers------_____ \n")
 print("Enter the name of the product you sell.")
-print("Example Phones, courses, cars etc.")
-product = input("Produt:")
+print("Example Phones, courses, cars etc.\n")
+product = input("Product:")
 print(f"How much have you been ivesting to advertise {product}")
 print("on Facebook, Youtube,Instagram and Tiktok?")
 while True:
     budget = input("Budget: $")
+    print("\n")
     if budget.isdigit():
         break
     else:
         print(f"The Budget must be an interger.")
+#Here we assum that the budget is shared equally amon the social
+#media platforms. We also assum that the cost per click is $2
 investment_per_platform = float(budget)/4
 clicks = int(investment_per_platform / 2)
-print(f"We assume you have been investing ${investment_per_platform} ")
-print(f"on each advertising platform. About {clicks} clicks / week.\n")
+print(f"Therefore, you have been investing ${investment_per_platform} ")
+print(f"on each advertising platform. About {clicks} clicks/week.\n")
 
 def get_average_sales():
     """
@@ -40,17 +43,25 @@ def get_average_sales():
     """
     while True:
         print(f"What is the average number of sales you make")
-        print(f" on each of the platforms every week?")
+        print(f" on each of the following platforms every week?")
         facebook = input("Facebook:")
         youtube = input("Youtube:")
         instagram = input("Instagram:")
         tiktok = input("TikTok:")
+        print("\n")
         average_sales = [facebook, youtube, instagram, tiktok]
         if (validate_sales_count(average_sales)):
             print("Thank you! Building a marketing strategy now...")
+            print(f"Sale values provided for the platforms")
+            print(f"facebook, youtube, Instagram and TikTok respectively")
+            print(f"{average_sales}\n")
             return average_sales
 
 def validate_sales_count(sales_data):
+    """
+    Validate the values use inputs as average sales to make sure 
+    that they are integers and sales is less than clicks
+    """
     try:
         [int(sale) for sale in sales_data]
         for sale in sales_data:
@@ -72,7 +83,7 @@ def update_average_sales_worksheet(sales_data):
     print(f"Adding sales values you provided to average sales work sheet..")
     average_sales_sheet = SHEET.worksheet('average_sales')
     average_sales_sheet.append_row(sales_data)
-    print(f"Average sales values uploaded to worksheet successfully.")
+    print(f"Average sales values uploaded to worksheet successfully.\n")
 
 def update_diff_btw_clicks_and_sales(data, click):
     """
@@ -85,7 +96,7 @@ def update_diff_btw_clicks_and_sales(data, click):
     diff_btw_clicks_sales_sheet = SHEET.worksheet('diff_btw_clicks_and_sales')
     diff = [clicks - int(value) for value in data]
     diff_btw_clicks_sales_sheet.append_row(diff)
-    print(f"This Data {diff} was uploaded successfully\n")
+    print(f"This Data {diff} was uploaded successfully.\n")
     return diff
 
 
@@ -126,14 +137,9 @@ def update_investment_strategy_worksheet(data, product):
 
 sales = get_average_sales()
 average_sales = [int(sale) for sale in sales]
-print(f"Sale values provided for the platforms")
-print(f"facebook, youtube, Instagram and TikTok respectively")
-print(f"{average_sales}\n")
 update_average_sales_worksheet(average_sales)
 diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
 new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
-print(clicks)
-print(investment_per_platform)
 investment_per_product = update_investment_strategy_worksheet(new_invest, product)
 print(f"To make more {product} sales, Ivest as instructed below")
 print("for Facebook, Youtube, Instagram and TikTok")
