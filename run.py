@@ -1,7 +1,3 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
-
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -22,7 +18,7 @@ print("Enter the name of the product you sell.")
 print("Example Phones, courses, cars etc.\n")
 product = input("Product:")
 print(f"How much have you been ivesting to advertise {product}")
-print("on Facebook, Youtube,Instagram and Tiktok?")
+print("per week on Facebook, Youtube, Instagram and Tiktok?")
 while True:
     budget = input("Budget: $")
     print("\n")
@@ -30,16 +26,16 @@ while True:
         break
     else:
         print(f"The Budget must be an interger.")
-#Here we assum that the budget is shared equally amon the social
-#media platforms. We also assum that the cost per click is $2
+# Here we assum that the budget is shared equally amon the social
+# media platforms. We also assum that the cost per click is $2
 investment_per_platform = float(budget)/4
 clicks = int(investment_per_platform / 2)
-print(f"Therefore, you have been investing ${investment_per_platform}")
-print(f"on each advertising platform. About {clicks} clicks/week.\n")
+print(f"Therefore, you have been investing ${investment_per_platform} weekly")
+print(f"on each advertising platform. About {clicks} clicks.\n")
 
 def get_average_sales():
     """
-    Get average number of sales made on each platform
+    Get average number of sales made on each platform 
     """
     while True:
         print(f"What is the average number of sales you make")
