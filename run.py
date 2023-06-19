@@ -39,19 +39,20 @@ def get_average_sales():
     """
     while True:
         print(f"What is the average number of sales you make")
-        print(f"on each of the following platforms every week?")
+        print(f"on each of the following platforms every week?\n")
         facebook = input("Facebook:")
         youtube = input("Youtube:")
         instagram = input("Instagram:")
         tiktok = input("TikTok:")
         print("\n")
-        average_sales = [facebook, youtube, instagram, tiktok]
-        if (validate_sales_count(average_sales)):
+        average_sales_values = [facebook, youtube, instagram, tiktok]
+        if (validate_sales_count(average_sales_values)):
             print("Thank you! Building a marketing strategy now...")
             print(f"Sale values provided for the platforms")
             print(f"facebook, youtube, Instagram and TikTok respectively")
-            print(f"{average_sales}\n")
-            return average_sales
+            print(f"{average_sales_values}\n")
+        average_sales_made = [int(value) for value in average_sales_values]
+        return average_sales_made
 
 def validate_sales_count(sales_data):
     """
@@ -83,9 +84,8 @@ def update_average_sales_worksheet(sales_data):
 
 def update_diff_btw_clicks_and_sales(data, click):
     """
-    Update our diff_btw_clics_sales worksheet
-    Data to update comes from subtracting number
-    of sales from number of clicks for each platform
+    Calculate the difference between sales and clicks for each platform
+    and update our diff_btw_clics_sales worksheet
     """
     print(f"We calculate the difference between clicks")
     print("and sales and add to diff_btw_clicks_sales worksheet")
@@ -101,43 +101,49 @@ def market_strategy(diff, clicks, investment):
     """
     Calculate how much should be invested on each social media platform.
     Calculations are based on the differences between clicks and sales to 
-    know which platform is best for a particular product
+    know which platform is best for a particular product. Invest $5 in
+    the worst performance case just to keep are advertising page running
     """
-    print(f"Calculating a better strategy to invest ${budget}....")
+    print(f"Calculating a better strategy to invest ${budget}.")
+    investment_ratio = []
+    sum_of_ratio = 0
     strategised_investment = []
-    amount_invested = 0
-    budget_strategised_investment = []
     
     for value in diff:
         if value < clicks * 0.2:
             sum_to_invest = int(investment * 2)
-            strategised_investment.append(sum_to_invest)
+            investment_ratio.append(sum_to_invest)
         elif value < clicks * 0.5:
             sum_to_invest = int(investment * 1.5)
-            strategised_investment.append(sum_to_invest)
+            investment_ratio.append(sum_to_invest)
         elif value < clicks * 0.7:
             sum_to_invest = int(investment/2)
-            strategised_investment.append(sum_to_invest)
+            investment_ratio.append(sum_to_invest)
         elif value < clicks * 0.9:
             sum_to_invest = int(investment/3)
-            strategised_investment.append(sum_to_invest)
+            investment_ratio.append(sum_to_invest)
         else:
             sum_to_invest = 5
-            strategised_investment.append(sum_to_invest)
+            investment_ratio.append(sum_to_invest)
     
-    for amount in strategised_investment:
-        amount_invested += int(amount)
+    for amount in investment_ratio:
+        sum_of_ratio += int(amount)
     for i in range(0, 4):
-        budget_strategised_investment.append((int(budget)/amount_invested) * strategised_investment[i])
-    return budget_strategised_investment
+        strategised_investment.append((int(budget)/sum_of_ratio) * investment_ratio[i])
+        calculated_strategy = [int(value) for value in strategised_investment]
+    return calculated_strategy
 
 def update_investment_strategy_worksheet(data, product):
     """
-    Upload the calculated values from market_strategy function
+    Add particular product to the calculated investment sheet then
+    upload the calculated values from market_strategy function
     """
     investment_strategy_sheet = SHEET.worksheet('investment_strategy')
     data.insert(0, product)
     investment_strategy_sheet.append_row(data)
+    print(f"To make more {product} sales, Invest as instructed below")
+    print("for Facebook, Youtube, Instagram and TikTok respectively")
+    print(data)
     return data
 
 def validate_strategy(strategy, sales):
@@ -179,15 +185,15 @@ def validate_strategy(strategy, sales):
 
 
 
-sales = get_average_sales()
-average_sales = [int(sale) for sale in sales]
+
+average_sales = get_average_sales()
 update_average_sales_worksheet(average_sales)
 diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
 new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
 investment_per_product = update_investment_strategy_worksheet(new_invest, product)
 #new_investments = [int(invest) for invest in investment_per_product]
-print(f"To make more {product} sales, Ivest as instructed below")
-print("for Facebook, Youtube, Instagram and TikTok")
-print(investment_per_product)
+#print(f"To make more {product} sales, Invest as instructed below")
+#print("for Facebook, Youtube, Instagram and TikTok respectively")
+#print(investment_per_product)
 total_expected_sales = validate_strategy(investment_per_product, average_sales)
 print(f"Total expected sales {total_expected_sales}")
