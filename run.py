@@ -141,49 +141,41 @@ def update_investment_strategy_worksheet(data, product):
     investment_strategy_sheet = SHEET.worksheet('investment_strategy')
     data.insert(0, product)
     investment_strategy_sheet.append_row(data)
-    print(f"To make more {product} sales, Invest as instructed below")
-    print("for Facebook, Youtube, Instagram and TikTok respectively")
-    print(data)
+    print(f"To make more {product} sales, Invest as instructed below.\n")
+    print(f"[{product}, Facebook, Youtube, Instagram, TikTok] : {data}")
     return data
 
 def validate_strategy(strategy, sales):
     sum_tobe_invested = 0
-    expected_total_sales = 0
-    multiplier = []
     expected_sales_with_strategy = []
+    expected_total_sales = 0
+
     for i in range(1, 5):
         sum_tobe_invested += strategy[i]
         
         if strategy[i] > investment_per_platform:
             change = strategy[i]/investment_per_platform
-            multiplier.append(change)
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
              
         elif strategy[i] == investment_per_platform:
             change = 1
-            multiplier.append(change)
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
             
         else:
             change = investment_per_platform / strategy[i]
-            multiplier.append(change)
             sales[i-1] = sales[i-1] / change
             expected_sales_with_strategy.append(sales[i-1])
+    expected_sales = [int(sale) for sale in expected_sales_with_strategy ]   
             
-    print(f"New sum to be invested is ${sum_tobe_invested}\n")
-    
-    print(f"Expected sales: {expected_sales_with_strategy}")
+    print(f"New sum to be invested is ${sum_tobe_invested}")
+    print(f"Expected sales: {expected_sales}")
 
-    print(multiplier)
-    
-    for sales in expected_sales_with_strategy:
+    for sales in expected_sales:
         expected_total_sales += sales
+    print(f"Expected total sales: {expected_total_sales}")
     return expected_total_sales    
-    
-
-
 
 
 average_sales = get_average_sales()
@@ -191,9 +183,4 @@ update_average_sales_worksheet(average_sales)
 diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
 new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
 investment_per_product = update_investment_strategy_worksheet(new_invest, product)
-#new_investments = [int(invest) for invest in investment_per_product]
-#print(f"To make more {product} sales, Invest as instructed below")
-#print("for Facebook, Youtube, Instagram and TikTok respectively")
-#print(investment_per_product)
-total_expected_sales = validate_strategy(investment_per_product, average_sales)
-print(f"Total expected sales {total_expected_sales}")
+validate_strategy(investment_per_product, average_sales)
