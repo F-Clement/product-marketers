@@ -109,6 +109,9 @@ def market_strategy(diff, clicks, investment):
     """
     print(f"Calculating a better strategy to invest ${budget}....")
     strategised_investment = []
+    amount_invested = 0
+    budget_strategised_investment = []
+    
     for value in diff:
         if value < clicks * 0.2:
             sum_to_invest = int(investment * 2)
@@ -125,7 +128,12 @@ def market_strategy(diff, clicks, investment):
         else:
             sum_to_invest = 5
             strategised_investment.append(sum_to_invest)
-    return strategised_investment
+    
+    for amount in strategised_investment:
+        amount_invested += int(amount)
+    for i in range(0, 4):
+        budget_strategised_investment.append((int(budget)/amount_invested) * strategised_investment[i])
+    return budget_strategised_investment
 
 def update_investment_strategy_worksheet(data, product):
     """
