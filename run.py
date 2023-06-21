@@ -13,32 +13,29 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('product_marketers')
 
 
-print("_____------Welcome To Product Marketers------_____ \n")
-print("Enter the name of the product you have been selling.")
-print("Example Phones, courses, cars, jewelries etc.\n")
-#product = input("Product:")
-while True:
-    product = input("Product:")
-    print("\n")
-    if len(product) != 0:
-        break
-    else:
-        print("Please enter a product name.")
-print(f"How much have you been ivesting to advertise {product}")
-print("per week on Facebook, Youtube, Instagram and Tiktok?")
-while True:
-    budget = input("Budget: $")
-    print("\n")
-    if budget.isdigit():
-        break
-    else:
-        print(f"The Budget must be an interger.")
-# Here we assum that the budget is shared equally among the social
-# media platforms. We also assum that the cost per click is $2
-investment_per_platform = float(budget)/4
-clicks = int(investment_per_platform / 2)
-print(f"Therefore, you have been investing ${investment_per_platform} weekly")
-print(f"on each advertising platform. About {clicks} clicks.\n")
+def basic_info():
+    while True:
+        product = input("Product:")
+        print("\n")
+        if len(product) != 0:
+            break
+        else:
+            print("Please enter a product name.")
+    print(f"How much have you been ivesting to advertise {product}")
+    print("per week on Facebook, Youtube, Instagram and Tiktok?")
+    while True:
+        budget = input("Budget: $")
+        print("\n")
+        if budget.isdigit():
+            break
+        else:
+            print(f"The Budget must be an interger.")
+    # Here we assum that the budget is shared equally among the social
+    # media platforms. We also assum that the cost per click is $2
+    investment_per_platform = float(budget)/4
+    clicks = int(investment_per_platform / 2)
+    print(f"Therefore, you have been investing ${investment_per_platform} weekly")
+    print(f"on each advertising platform. About {clicks} clicks.\n")
 
 def get_average_sales():
     """
@@ -58,8 +55,9 @@ def get_average_sales():
             print(f"Sale values provided for the platforms")
             print(f"facebook, youtube, Instagram and TikTok respectively")
             print(f"{average_sales_values}\n")
-        average_sales_made = [int(value) for value in average_sales_values]
-        return average_sales_made
+            break
+    average_sales_made = [int(value) for value in average_sales_values]
+    return average_sales_made
 
 def validate_sales_count(sales_data):
     """
@@ -182,12 +180,32 @@ def validate_strategy(strategy, sales):
     for sales in expected_sales:
         expected_total_sales += sales
     print(f"Expected total sales: {expected_total_sales}")
-    return expected_total_sales    
+    return expected_total_sales  
+
+def check_existing_product_strategy(prod):
+    print("Enter product name")
+    prod = input("Product Name: ")
+    strategies = SHEET.worksheet('investment_strategy')
+    product_name = strategies.col_values(1)
+    if prod in product_name:
+        row_no = product_name.index(prod) + 1
+        investment_ratio = strategies.row_values(row_no )
+        print(investment_ratio)
+    else:
+        print(f"Strategy for {prod} not found")
+    print(product_name)
 
 
-average_sales = get_average_sales()
-update_average_sales_worksheet(average_sales)
-diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
-new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
-investment_per_product = update_investment_strategy_worksheet(new_invest, product)
-validate_strategy(investment_per_product, average_sales)
+def main():
+    basic_info()
+    average_sales = get_average_sales()
+    update_average_sales_worksheet(average_sales)
+    diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
+    new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
+    investment_per_product = update_investment_strategy_worksheet(new_invest, product)
+    validate_strategy(investment_per_product, average_sales)
+    
+print("_____------Welcome To Product Marketers------_____ \n")
+print("Enter the name of the product you have been selling.")
+print("Example Phones, courses, cars, jewelries etc.\n")
+main()
