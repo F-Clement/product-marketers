@@ -32,12 +32,13 @@ def basic_info():
             print(f"The Budget must be an interger.")
     # Here we assum that the budget is shared equally among the social
     # media platforms. We also assum that the cost per click is $2
-    investment_per_platform = float(budget)/4
-    clicks = int(investment_per_platform / 2)
-    print(f"Therefore, you have been investing ${investment_per_platform} weekly")
+    platform_investment = float(budget)/4
+    clicks = int(platform_investment/ 2)
+    print(f"Therefore, you have been investing ${platform_investment} weekly")
     print(f"on each advertising platform. About {clicks} clicks.\n")
+    return clicks, platform_investment, budget, product
 
-def get_average_sales():
+def get_average_sales(clicks):
     """
     Get average number of sales made on each platform 
     """
@@ -50,7 +51,7 @@ def get_average_sales():
         tiktok = input("TikTok:")
         print("\n")
         average_sales_values = [facebook, youtube, instagram, tiktok]
-        if (validate_sales_count(average_sales_values)):
+        if (validate_sales_count(average_sales_values, clicks)):
             print("Thank you! Building a marketing strategy now...")
             print(f"Sale values provided for the platforms")
             print(f"facebook, youtube, Instagram and TikTok respectively")
@@ -59,7 +60,7 @@ def get_average_sales():
     average_sales_made = [int(value) for value in average_sales_values]
     return average_sales_made
 
-def validate_sales_count(sales_data):
+def validate_sales_count(sales_data, clicks):
     """
     Validate the values use inputs as average sales to make sure 
     that they are integers and sales is less than clicks
@@ -95,21 +96,21 @@ def update_diff_btw_clicks_and_sales(data, click):
     print(f"We calculate the difference between clicks")
     print("and sales and add to diff_btw_clicks_sales worksheet")
     diff_btw_clicks_sales_sheet = SHEET.worksheet('diff_btw_clicks_and_sales')
-    diff = [clicks - int(value) for value in data]
+    diff = [click - int(value) for value in data]
     diff_btw_clicks_sales_sheet.append_row(diff)
     print(f"Difference between click and sales data is {diff}")
     print("Uploaded to the diff btw clicks and sales worksheet successfully.\n")
     return diff
 
 
-def market_strategy(diff, clicks, investment):
+def market_strategy(diff, clicks, investment, budget):
     """
     Calculate how much should be invested on each social media platform.
     Calculations are based on the differences between clicks and sales to 
     know which platform is best for a particular product. Invest $5 in
     the worst performance case just to keep are advertising page running
     """
-    print(f"Calculating a better strategy to invest ${budget}.")
+    print(f"Calculating a better strategy to invest .")
     investment_ratio = []
     sum_of_ratio = 0
     strategised_investment = []
@@ -150,7 +151,7 @@ def update_investment_strategy_worksheet(data, product):
     print(f"[{product}, Facebook, Youtube, Instagram, TikTok] : {data}")
     return data
 
-def validate_strategy(strategy, sales):
+def validate_strategy(strategy, sales, platform_investment):
     sum_tobe_invested = 0
     expected_sales_with_strategy = []
     expected_total_sales = 0
@@ -158,18 +159,18 @@ def validate_strategy(strategy, sales):
     for i in range(1, 5):
         sum_tobe_invested += strategy[i]
         
-        if strategy[i] > investment_per_platform:
-            change = strategy[i]/investment_per_platform
+        if strategy[i] > platform_investment:
+            change = strategy[i]/platform_investment
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
              
-        elif strategy[i] == investment_per_platform:
+        elif strategy[i] == platform_investment:
             change = 1
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
             
         else:
-            change = investment_per_platform / strategy[i]
+            change = platform_investment / strategy[i]
             sales[i-1] = sales[i-1] / change
             expected_sales_with_strategy.append(sales[i-1])
     expected_sales = [int(sale) for sale in expected_sales_with_strategy ]   
@@ -197,13 +198,13 @@ def check_existing_product_strategy(prod):
 
 
 def main():
-    basic_info()
-    average_sales = get_average_sales()
+    clicks, platform_investment, budget, product = basic_info()
+    average_sales = get_average_sales(clicks)
     update_average_sales_worksheet(average_sales)
     diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
-    new_invest = market_strategy(diff_btw_sales_clicks, clicks, investment_per_platform )
+    new_invest = market_strategy(diff_btw_sales_clicks, clicks, platform_investment, budget )
     investment_per_product = update_investment_strategy_worksheet(new_invest, product)
-    validate_strategy(investment_per_product, average_sales)
+    validate_strategy(investment_per_product, average_sales, platform_investment)
     
 print("_____------Welcome To Product Marketers------_____ \n")
 print("Enter the name of the product you have been selling.")
