@@ -14,9 +14,16 @@ SHEET = GSPREAD_CLIENT.open('product_marketers')
 
 
 print("_____------Welcome To Product Marketers------_____ \n")
-print("Enter the name of the product you sell.")
-print("Example Phones, courses, cars etc.\n")
-product = input("Product:")
+print("Enter the name of the product you have been selling.")
+print("Example Phones, courses, cars, jewelries etc.\n")
+#product = input("Product:")
+while True:
+    product = input("Product:")
+    print("\n")
+    if len(product) != 0:
+        break
+    else:
+        print("Please enter a product name.")
 print(f"How much have you been ivesting to advertise {product}")
 print("per week on Facebook, Youtube, Instagram and Tiktok?")
 while True:
@@ -26,7 +33,7 @@ while True:
         break
     else:
         print(f"The Budget must be an interger.")
-# Here we assum that the budget is shared equally amon the social
+# Here we assum that the budget is shared equally among the social
 # media platforms. We also assum that the cost per click is $2
 investment_per_platform = float(budget)/4
 clicks = int(investment_per_platform / 2)
