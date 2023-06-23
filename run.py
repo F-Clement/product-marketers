@@ -12,6 +12,38 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('product_marketers')
 
+def introduction():
+    """
+    Welcome to the program and presents a menu for user to select
+    action the want to take
+    """
+    while True:
+        print("_____------Welcome To Product Marketers------_____ \n")
+
+        print(f"Product marketers proveds an investment strategy for")
+        print(f"advertising a product on four social media platforms")
+        print(f"namely Facebook, Youtube, Instagram and TikTok\n")
+
+        print(f"What Do You Want To Do?\n \n")
+
+        print(f"1 - Find investment strategy for a new product\n")
+        print(f"2 - Check investment strategy for existing products\n")
+
+        print(f"Enter '1' to get investment strategy new products and 2 for old products\n")
+
+        menu_item = input("Enter Menu Number: ")
+
+
+        if menu_item == "1":
+            pass
+            break
+        elif menu_item == "2":
+            check_existing_product_strategy()
+            break
+        else:
+            print("Please enter a valid menu item")
+        return True    
+
 
 def basic_info():
     while True:
@@ -183,7 +215,7 @@ def validate_strategy(strategy, sales, platform_investment):
     print(f"Expected total sales: {expected_total_sales}")
     return expected_total_sales  
 
-def check_existing_product_strategy(prod):
+def check_existing_product_strategy():
     print("Enter product name")
     prod = input("Product Name: ")
     strategies = SHEET.worksheet('investment_strategy')
@@ -194,10 +226,13 @@ def check_existing_product_strategy(prod):
         print(investment_ratio)
     else:
         print(f"Strategy for {prod} not found")
-    print(product_name)
+    
 
 
 def main():
+    introduction()
+    print("Enter the name of the product you have been selling.")
+    print("Example Phones, courses, cars, jewelries etc.\n")
     clicks, platform_investment, budget, product = basic_info()
     average_sales = get_average_sales(clicks)
     update_average_sales_worksheet(average_sales)
@@ -206,7 +241,5 @@ def main():
     investment_per_product = update_investment_strategy_worksheet(new_invest, product)
     validate_strategy(investment_per_product, average_sales, platform_investment)
     
-print("_____------Welcome To Product Marketers------_____ \n")
-print("Enter the name of the product you have been selling.")
-print("Example Phones, courses, cars, jewelries etc.\n")
+
 main()
