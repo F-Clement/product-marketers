@@ -21,8 +21,8 @@ def goto_menu():
     continously running even without user requesting
     """
     while True:
-        print("Enter '1' to return to main Menu")
-        key = input(Fore.YELLOW + "Return to Menu? ")
+        print(Fore.WHITE + "Enter '1' to return to main Menu")
+        key = input("Return to Menu? ")
         if key == "1":
             main()
             break
@@ -42,12 +42,12 @@ def menu_select():
     elif menu_item == "3":
         check_existing_product_strategy()
     else:
-        print("Please enter a valid menu item \n")
+        print(Fore.WHITE + "Please enter a valid menu item \n")
         menu_select()
 
 def basic_info():
-    print("Enter the name of the product you have been selling.")
-    print("Example Phones, courses, cars, jewelries etc.\n")
+    print(Fore.WHITE + "Enter the name of the product you have been selling.")
+    print(Fore.WHITE + "Example Phones, courses, cars, jewelries etc.\n")
     while True:
         product = input(Fore.YELLOW + "Product:")
         print("\n")
@@ -55,8 +55,8 @@ def basic_info():
             break
         else:
             print("Please enter a product name.")
-    print(f"How much have you been ivesting to advertise {product}")
-    print("per week on Facebook, Youtube, Instagram and Tiktok?")
+    print(Fore.WHITE + f"How much have you been ivesting to advertise {product}")
+    print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
     while True:
         budget = input(Fore.YELLOW + "Budget: $")
         print("\n")
@@ -75,8 +75,8 @@ def get_average_sales(clicks):
     Get average number of sales made on each platform 
     """
     while True:
-        print(f"What is the average number of sales you make")
-        print(f"on each of the following platforms every week?\n")
+        print(Fore.WHITE + f"What is the average number of sales you make")
+        print(Fore.WHITE + f"on each of the following platforms every week?\n")
         facebook = input(Fore.YELLOW + "Facebook:")
         youtube = input(Fore.YELLOW + "Youtube:")
         instagram = input(Fore.YELLOW + "Instagram:")
@@ -98,11 +98,11 @@ def validate_sales_count(sales_data, clicks):
         for sale in sales_data:
             if int(sale) > clicks:
                 raise ValueError(
-                    f"The input '{sale}' for sales is not correct."
+                    Fore.WHITE + f"The input '{sale}' for sales is not correct."
                     f"Number of Sales cannot be more than Number of clicks. \n"
                 )
     except ValueError as e:
-        print(f"Invalid data: {e} Please enter Integer values for sales made")
+        print(Fore.WHITE + f"Invalid data: {e} Please enter Integer values for sales made")
         return False
     return True
 
@@ -113,7 +113,7 @@ def update_average_sales_worksheet(sales_data):
     """
     average_sales_sheet = SHEET.worksheet('average_sales')
     average_sales_sheet.append_row(sales_data)
-    print(f"Average sales values uploaded to worksheet successfully.\n")
+    print(Fore.WHITE + f"Average sales values uploaded to worksheet successfully.\n")
 
 def update_diff_btw_clicks_and_sales(data, click):
     """
@@ -166,8 +166,8 @@ def update_investment_strategy_worksheet(data, product):
     investment_strategy_sheet = SHEET.worksheet('investment_strategy')
     data.insert(0, product)
     investment_strategy_sheet.append_row(data)
-    print(f"To make more {product} sales, Invest as instructed below.")
-    print(f"[{product}, Facebook, Youtube, Instagram, TikTok] : {data}\n")
+    print(Fore.WHITE + f"To make more {product} sales, Invest as instructed below.")
+    print(Fore.WHITE + f"[{product}, Facebook, Youtube, Instagram, TikTok] : {data}\n")
     return data
 
 def validate_strategy(strategy, sales, platform_investment):
@@ -194,10 +194,10 @@ def validate_strategy(strategy, sales, platform_investment):
             expected_sales_with_strategy.append(sales[i-1])
     expected_sales = [int(sale) for sale in expected_sales_with_strategy ]        
     print(Fore.GREEN + f"New sum to be invested is ${sum_tobe_invested}")
-    print(f"Expected sales: {expected_sales}")
+    print(Fore.GREEN + f"Expected sales: {expected_sales}")
     for sales in expected_sales:
         expected_total_sales += sales
-    print(f"Expected total sales: {expected_total_sales}\n\n")
+    print(Fore.GREEN + f"Expected total sales: {expected_total_sales}\n\n")
     goto_menu()  
 
 def check_existing_product_strategy():
@@ -207,24 +207,24 @@ def check_existing_product_strategy():
     product investment strategy will be shown to user
     and also give user the ability to delete the data
     """
-    print("Enter product name")
+    print(Fore.WHITE + "Enter product name")
     prod = input(Fore.YELLOW + "Product Name: ")
     strategies = SHEET.worksheet('investment_strategy')
     product_name = strategies.col_values(1)
     if prod in product_name:
-        print(f"The product {prod} is in the worksheet")
+        print(Fore.GREEN + f"The product {prod} is in the worksheet")
         row_no = product_name.index(prod) + 1
         investment_ratio = strategies.row_values(row_no )
-        print(investment_ratio)
+        print(Fore.GREEN + f"{investment_ratio}")
         print("\n")
-        print("Enter '1' to delete and any other key to go back to menu")
-        delete = input("Delete? ")
+        print(Fore.WHITE + "Enter '1' to delete and any other key to go back to menu")
+        delete = input(Fore.RED + "Delete? ")
         if delete == '1':
             strategies.delete_rows(2)
         else:
             main()
     else:
-        print(f"Strategy for product '{prod}' not found.\n")
+        print(Fore.WHITE + f"Strategy for product '{prod}' not found.\n")
     goto_menu()
 
 
