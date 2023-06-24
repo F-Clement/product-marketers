@@ -11,6 +11,19 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('product_marketers')
+def goto_menu():
+    """
+    Get user to menu after finishing a task to avoid function
+    continously running even without user requesting
+    """
+    while True:
+        print("Enter '1' to return to main Menu")
+        key = input("Return to Menu? ")
+        if key == "1":
+            main()
+            break
+        else:
+            pass
 
 def menu_select():
     """
@@ -21,7 +34,6 @@ def menu_select():
 
     if menu_item == "1":
         pass
-        
     elif menu_item == "2":
         check_existing_product_strategy()
     else:
@@ -198,8 +210,8 @@ def validate_strategy(strategy, sales, platform_investment):
 
     for sales in expected_sales:
         expected_total_sales += sales
-    print(f"Expected total sales: {expected_total_sales}")
-    return expected_total_sales  
+    print(f"Expected total sales: {expected_total_sales}\n\n")
+    goto_menu()  
 
 def check_existing_product_strategy():
     print("Enter product name")
@@ -210,14 +222,10 @@ def check_existing_product_strategy():
         row_no = product_name.index(prod) + 1
         investment_ratio = strategies.row_values(row_no )
         print(investment_ratio)
+        print("\n")
     else:
-        print(f"Strategy for {prod} not found")
-
-    print("Return to main menu?")
-    answer = input("Input 1 to go back to main menu:")
-    
-    
-
+        print(f"Strategy for product '{prod}' not found.\n")
+    goto_menu()
 
 def main():
     """
