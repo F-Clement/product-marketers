@@ -1,5 +1,7 @@
 import gspread
 import openpyxl
+import colorama
+from colorama import Fore
 from google.oauth2.service_account import Credentials
 
 SCOPE = [
@@ -20,7 +22,7 @@ def goto_menu():
     """
     while True:
         print("Enter '1' to return to main Menu")
-        key = input("Return to Menu? ")
+        key = input(Fore.YELLOW + "Return to Menu? ")
         if key == "1":
             main()
             break
@@ -32,7 +34,7 @@ def menu_select():
     Select a menu item by inputting a number that corresponds
     to what part of the application the user want to use.
     """
-    menu_item = input("Enter Menu Number: ")
+    menu_item = input(Fore.YELLOW + "Enter Menu Number: ")
     if menu_item == "1":
         pass
     elif menu_item == "2":
@@ -47,7 +49,7 @@ def basic_info():
     print("Enter the name of the product you have been selling.")
     print("Example Phones, courses, cars, jewelries etc.\n")
     while True:
-        product = input("Product:")
+        product = input(Fore.YELLOW + "Product:")
         print("\n")
         if len(product) != 0:
             break
@@ -56,7 +58,7 @@ def basic_info():
     print(f"How much have you been ivesting to advertise {product}")
     print("per week on Facebook, Youtube, Instagram and Tiktok?")
     while True:
-        budget = input("Budget: $")
+        budget = input(Fore.YELLOW + "Budget: $")
         print("\n")
         if budget.isdigit():
             break
@@ -66,8 +68,6 @@ def basic_info():
     # media platforms. We also assum that the cost per click is $2
     platform_investment = float(budget)/4
     clicks = int(platform_investment/ 2)
-    print(f"Therefore, you have been investing ${platform_investment} weekly")
-    print(f"on each advertising platform. About {clicks} clicks.\n")
     return clicks, platform_investment, budget, product
 
 def get_average_sales(clicks):
@@ -77,17 +77,13 @@ def get_average_sales(clicks):
     while True:
         print(f"What is the average number of sales you make")
         print(f"on each of the following platforms every week?\n")
-        facebook = input("Facebook:")
-        youtube = input("Youtube:")
-        instagram = input("Instagram:")
-        tiktok = input("TikTok:")
+        facebook = input(Fore.YELLOW + "Facebook:")
+        youtube = input(Fore.YELLOW + "Youtube:")
+        instagram = input(Fore.YELLOW + "Instagram:")
+        tiktok = input(Fore.YELLOW + "TikTok:")
         print("\n")
         average_sales_values = [facebook, youtube, instagram, tiktok]
         if (validate_sales_count(average_sales_values, clicks)):
-            print("Thank you! Building a marketing strategy now...")
-            print(f"Sale values provided for the platforms")
-            print(f"facebook, youtube, Instagram and TikTok respectively")
-            print(f"{average_sales_values}\n")
             break
     average_sales_made = [int(value) for value in average_sales_values]
     return average_sales_made
@@ -115,7 +111,6 @@ def update_average_sales_worksheet(sales_data):
     Update the averages sales work sheet
     with the sales values the user provided
     """
-    print(f"Adding sales values you provided to average sales work sheet..")
     average_sales_sheet = SHEET.worksheet('average_sales')
     average_sales_sheet.append_row(sales_data)
     print(f"Average sales values uploaded to worksheet successfully.\n")
@@ -125,13 +120,9 @@ def update_diff_btw_clicks_and_sales(data, click):
     Calculate the difference between sales and clicks for each platform
     and update our diff_btw_clics_sales worksheet
     """
-    print(f"We calculate the difference between clicks")
-    print("and sales and add to diff_btw_clicks_sales worksheet")
     diff_btw_clicks_sales_sheet = SHEET.worksheet('diff_btw_clicks_and_sales')
     diff = [click - int(value) for value in data]
     diff_btw_clicks_sales_sheet.append_row(diff)
-    print(f"Difference between click and sales data is {diff}")
-    print("Uploaded to the diff btw clicks and sales worksheet successfully.\n")
     return diff
 
 def market_strategy(diff, clicks, investment, budget):
@@ -141,7 +132,6 @@ def market_strategy(diff, clicks, investment, budget):
     know which platform is best for a particular product. Invest $5 in
     the worst performance case just to keep are advertising page running
     """
-    print(f"Calculating a better strategy to invest .")
     investment_ratio = []
     sum_of_ratio = 0
     strategised_investment = []
@@ -176,11 +166,15 @@ def update_investment_strategy_worksheet(data, product):
     investment_strategy_sheet = SHEET.worksheet('investment_strategy')
     data.insert(0, product)
     investment_strategy_sheet.append_row(data)
-    print(f"To make more {product} sales, Invest as instructed below.\n")
-    print(f"[{product}, Facebook, Youtube, Instagram, TikTok] : {data}")
+    print(f"To make more {product} sales, Invest as instructed below.")
+    print(f"[{product}, Facebook, Youtube, Instagram, TikTok] : {data}\n")
     return data
 
 def validate_strategy(strategy, sales, platform_investment):
+    """
+    Verify that calculated investment strategy works better
+    by calculating the expected sales and money invested
+    """
     sum_tobe_invested = 0
     expected_sales_with_strategy = []
     expected_total_sales = 0
@@ -199,7 +193,7 @@ def validate_strategy(strategy, sales, platform_investment):
             sales[i-1] = sales[i-1] / change
             expected_sales_with_strategy.append(sales[i-1])
     expected_sales = [int(sale) for sale in expected_sales_with_strategy ]        
-    print(f"New sum to be invested is ${sum_tobe_invested}")
+    print(Fore.GREEN + f"New sum to be invested is ${sum_tobe_invested}")
     print(f"Expected sales: {expected_sales}")
     for sales in expected_sales:
         expected_total_sales += sales
@@ -207,8 +201,14 @@ def validate_strategy(strategy, sales, platform_investment):
     goto_menu()  
 
 def check_existing_product_strategy():
+    """
+    When user enters products we check if it already
+    exist is our worksheet and then if it does the
+    product investment strategy will be shown to user
+    and also give user the ability to delete the data
+    """
     print("Enter product name")
-    prod = input("Product Name: ")
+    prod = input(Fore.YELLOW + "Product Name: ")
     strategies = SHEET.worksheet('investment_strategy')
     product_name = strategies.col_values(1)
     if prod in product_name:
@@ -222,7 +222,7 @@ def check_existing_product_strategy():
         if delete == '1':
             strategies.delete_rows(2)
         else:
-            goto_menu()
+            main()
     else:
         print(f"Strategy for product '{prod}' not found.\n")
     goto_menu()
@@ -232,10 +232,12 @@ def check_existing_product_strategy():
 def main():
     """
     Use print statements to welcome user and present a menu to select
-    a part of the application they want to use
+    a part of the application they want to use. Also include all other 
+    functions.
     """
-    print("_____------Welcome To Product Marketers------_____ \n")
-    print(f"Product marketers is an application that generates investment")
+    print("\n")
+    print(Fore.BLUE + "_____------Welcome To Product Marketers------_____ \n")
+    print(Fore.WHITE +  f"Product marketers is an application that generates investment")
     print(f"strategies for advertising a product on four social media")
     print(f"platforms namely Facebook, Youtube, Instagram and TikTok\n")
     print(f"What Do You Want To Do? (Enter menu item numbe and hit Enter)\n \n")
