@@ -1,4 +1,5 @@
 import gspread
+import openpyxl
 from google.oauth2.service_account import Credentials
 
 SCOPE = [
@@ -11,6 +12,7 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('product_marketers')
+
 def goto_menu():
     """
     Get user to menu after finishing a task to avoid function
@@ -31,16 +33,16 @@ def menu_select():
     to what part of the application the user want to use.
     """
     menu_item = input("Enter Menu Number: ")
-
     if menu_item == "1":
         pass
     elif menu_item == "2":
         check_existing_product_strategy()
+    elif menu_item == "3":
+        check_existing_product_strategy()
     else:
         print("Please enter a valid menu item \n")
         menu_select()
-# Online Python compiler (interpreter) to run Python online.
-# Write Python 3 code in this online editor and run it.
+
 def basic_info():
     print("Enter the name of the product you have been selling.")
     print("Example Phones, courses, cars, jewelries etc.\n")
@@ -132,7 +134,6 @@ def update_diff_btw_clicks_and_sales(data, click):
     print("Uploaded to the diff btw clicks and sales worksheet successfully.\n")
     return diff
 
-
 def market_strategy(diff, clicks, investment, budget):
     """
     Calculate how much should be invested on each social media platform.
@@ -144,7 +145,6 @@ def market_strategy(diff, clicks, investment, budget):
     investment_ratio = []
     sum_of_ratio = 0
     strategised_investment = []
-    
     for value in diff:
         if value < clicks * 0.2:
             sum_to_invest = int(investment * 2)
@@ -161,7 +161,6 @@ def market_strategy(diff, clicks, investment, budget):
         else:
             sum_to_invest = 5
             investment_ratio.append(sum_to_invest)
-    
     for amount in investment_ratio:
         sum_of_ratio += int(amount)
     for i in range(0, 4):
@@ -185,29 +184,23 @@ def validate_strategy(strategy, sales, platform_investment):
     sum_tobe_invested = 0
     expected_sales_with_strategy = []
     expected_total_sales = 0
-
     for i in range(1, 5):
         sum_tobe_invested += strategy[i]
-        
         if strategy[i] > platform_investment:
             change = strategy[i]/platform_investment
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
-             
         elif strategy[i] == platform_investment:
             change = 1
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
-            
         else:
             change = platform_investment / strategy[i]
             sales[i-1] = sales[i-1] / change
             expected_sales_with_strategy.append(sales[i-1])
-    expected_sales = [int(sale) for sale in expected_sales_with_strategy ]   
-            
+    expected_sales = [int(sale) for sale in expected_sales_with_strategy ]        
     print(f"New sum to be invested is ${sum_tobe_invested}")
     print(f"Expected sales: {expected_sales}")
-
     for sales in expected_sales:
         expected_total_sales += sales
     print(f"Expected total sales: {expected_total_sales}\n\n")
@@ -219,13 +212,22 @@ def check_existing_product_strategy():
     strategies = SHEET.worksheet('investment_strategy')
     product_name = strategies.col_values(1)
     if prod in product_name:
+        print(f"The product {prod} is in the worksheet")
         row_no = product_name.index(prod) + 1
         investment_ratio = strategies.row_values(row_no )
         print(investment_ratio)
         print("\n")
+        print("Enter '1' to delete and any other key to go back to menu")
+        delete = input("Delete? ")
+        if delete == '1':
+            strategies.delete_rows(2)
+        else:
+            goto_menu()
     else:
         print(f"Strategy for product '{prod}' not found.\n")
     goto_menu()
+
+
 
 def main():
     """
@@ -236,10 +238,11 @@ def main():
     print(f"Product marketers is an application that generates investment")
     print(f"strategies for advertising a product on four social media")
     print(f"platforms namely Facebook, Youtube, Instagram and TikTok\n")
-    print(f"What Do You Want To Do?\n \n")
+    print(f"What Do You Want To Do? (Enter menu item numbe and hit Enter)\n \n")
     print(f"1 - Find investment strategy for a new product\n")
     print(f"2 - Check investment strategy for existing products\n")
-    print(f"Enter '1' to get investment strategy new products and '2' for old products\n")
+    print(f"3 - Delete investment strategy for existing product\n")
+    
 
     menu_select()
     clicks, platform_investment, budget, product = basic_info()
@@ -249,5 +252,4 @@ def main():
     new_invest = market_strategy(diff_btw_sales_clicks, clicks, platform_investment, budget )
     investment_per_product = update_investment_strategy_worksheet(new_invest, product)
     validate_strategy(investment_per_product, average_sales, platform_investment)
-
 main()
