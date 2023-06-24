@@ -20,15 +20,15 @@ def menu_select():
     menu_item = input("Enter Menu Number: ")
 
     if menu_item == "1":
-        basic_info()
-        return False
+        pass
+        
     elif menu_item == "2":
         check_existing_product_strategy()
-        return False
     else:
         print("Please enter a valid menu item \n")
         menu_select()
-
+# Online Python compiler (interpreter) to run Python online.
+# Write Python 3 code in this online editor and run it.
 def basic_info():
     print("Enter the name of the product you have been selling.")
     print("Example Phones, courses, cars, jewelries etc.\n")
@@ -212,6 +212,10 @@ def check_existing_product_strategy():
         print(investment_ratio)
     else:
         print(f"Strategy for {prod} not found")
+
+    print("Return to main menu?")
+    answer = input("Input 1 to go back to main menu:")
+    
     
 
 
