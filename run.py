@@ -12,40 +12,26 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('product_marketers')
 
-def introduction():
+def menu_select():
     """
-    Welcome to the program and presents a menu for user to select
-    action the want to take
+    Select a menu item by inputting a number that corresponds
+    to what part of the application the user want to use.
     """
-    while True:
-        print("_____------Welcome To Product Marketers------_____ \n")
+    menu_item = input("Enter Menu Number: ")
 
-        print(f"Product marketers proveds an investment strategy for")
-        print(f"advertising a product on four social media platforms")
-        print(f"namely Facebook, Youtube, Instagram and TikTok\n")
-
-        print(f"What Do You Want To Do?\n \n")
-
-        print(f"1 - Find investment strategy for a new product\n")
-        print(f"2 - Check investment strategy for existing products\n")
-
-        print(f"Enter '1' to get investment strategy new products and 2 for old products\n")
-
-        menu_item = input("Enter Menu Number: ")
-
-
-        if menu_item == "1":
-            pass
-            break
-        elif menu_item == "2":
-            check_existing_product_strategy()
-            break
-        else:
-            print("Please enter a valid menu item")
-        return True    
-
+    if menu_item == "1":
+        basic_info()
+        return False
+    elif menu_item == "2":
+        check_existing_product_strategy()
+        return False
+    else:
+        print("Please enter a valid menu item \n")
+        menu_select()
 
 def basic_info():
+    print("Enter the name of the product you have been selling.")
+    print("Example Phones, courses, cars, jewelries etc.\n")
     while True:
         product = input("Product:")
         print("\n")
@@ -230,9 +216,20 @@ def check_existing_product_strategy():
 
 
 def main():
-    introduction()
-    print("Enter the name of the product you have been selling.")
-    print("Example Phones, courses, cars, jewelries etc.\n")
+    """
+    Use print statements to welcome user and present a menu to select
+    a part of the application they want to use
+    """
+    print("_____------Welcome To Product Marketers------_____ \n")
+    print(f"Product marketers is an application that generates investment")
+    print(f"strategies for advertising a product on four social media")
+    print(f"platforms namely Facebook, Youtube, Instagram and TikTok\n")
+    print(f"What Do You Want To Do?\n \n")
+    print(f"1 - Find investment strategy for a new product\n")
+    print(f"2 - Check investment strategy for existing products\n")
+    print(f"Enter '1' to get investment strategy new products and '2' for old products\n")
+
+    menu_select()
     clicks, platform_investment, budget, product = basic_info()
     average_sales = get_average_sales(clicks)
     update_average_sales_worksheet(average_sales)
@@ -240,6 +237,5 @@ def main():
     new_invest = market_strategy(diff_btw_sales_clicks, clicks, platform_investment, budget )
     investment_per_product = update_investment_strategy_worksheet(new_invest, product)
     validate_strategy(investment_per_product, average_sales, platform_investment)
-    
 
 main()
