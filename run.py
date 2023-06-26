@@ -22,7 +22,7 @@ def goto_menu():
     """
     while True:
         print(Fore.WHITE + "Enter '1' to return to main Menu")
-        key = input("Return to Menu? ")
+        key = input("Return to Menu? \n")
         if key == "1":
             main()
             break
@@ -34,7 +34,7 @@ def menu_select():
     Select a menu item by inputting a number that corresponds
     to what part of the application the user want to use.
     """
-    menu_item = input(Fore.YELLOW + "Enter Menu Number: ")
+    menu_item = input(Fore.YELLOW + "Enter Menu Number: \n")
     if menu_item == "1":
         pass
     elif menu_item == "2":
@@ -42,14 +42,14 @@ def menu_select():
     elif menu_item == "3":
         check_existing_product_strategy()
     else:
-        print(Fore.WHITE + "Please enter a valid menu item \n")
+        print(Fore.WHITE + "Please enter a valid menu item. \n")
         menu_select()
 
 def basic_info():
     print(Fore.WHITE + "Enter the name of the product you have been selling.")
     print(Fore.WHITE + "Example Phones, courses, cars, jewelries etc.\n")
     while True:
-        product = input(Fore.YELLOW + "Product:")
+        product = input(Fore.YELLOW + "Product:\n")
         print("\n")
         if len(product) != 0:
             break
@@ -58,7 +58,7 @@ def basic_info():
     print(Fore.WHITE + f"How much have you been ivesting to advertise {product}")
     print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
     while True:
-        budget = input(Fore.YELLOW + "Budget: $")
+        budget = input(Fore.YELLOW + "Budget: $\n")
         print("\n")
         if budget.isdigit():
             break
@@ -77,10 +77,10 @@ def get_average_sales(clicks):
     while True:
         print(Fore.WHITE + f"What is the average number of sales you make")
         print(Fore.WHITE + f"on each of the following platforms every week?\n")
-        facebook = input(Fore.YELLOW + "Facebook:")
-        youtube = input(Fore.YELLOW + "Youtube:")
-        instagram = input(Fore.YELLOW + "Instagram:")
-        tiktok = input(Fore.YELLOW + "TikTok:")
+        facebook = input(Fore.YELLOW + "Facebook:\n")
+        youtube = input(Fore.YELLOW + "Youtube:\n")
+        instagram = input(Fore.YELLOW + "Instagram:\n")
+        tiktok = input(Fore.YELLOW + "TikTok:\n")
         print("\n")
         average_sales_values = [facebook, youtube, instagram, tiktok]
         if (validate_sales_count(average_sales_values, clicks)):
@@ -218,7 +218,7 @@ def check_existing_product_strategy():
         print(Fore.GREEN + f"{investment_ratio}")
         print("\n")
         print(Fore.WHITE + "Enter '1' to delete and any other key to go back to menu")
-        delete = input(Fore.RED + "Delete? ")
+        delete = input(Fore.RED + "Delete? \n")
         if delete == '1':
             strategies.delete_rows(2)
         else:
