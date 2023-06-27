@@ -31,7 +31,7 @@ def goto_menu():
 
 def menu_select():
     """
-    Select a menu item by inputting a number that corresponds
+    User selects a menu item by inputting a number that corresponds
     to what part of the application the user want to use.
     """
     menu_item = input(Fore.YELLOW + "Enter Menu Number: \n")
@@ -46,26 +46,28 @@ def menu_select():
         menu_select()
 
 def basic_info():
+    """
+    Get product name, how much user spends as investment and
+    sales made on each social media platform per week.
+    Here we assum that the budget is shared equally 
+    among the social media platforms.
+    """
     print(Fore.WHITE + "Enter the name of the product you have been selling.")
     print(Fore.WHITE + "Example Phones, courses, cars, jewelries etc.\n")
     while True:
         product = input(Fore.YELLOW + "Product:\n")
-        print("\n")
         if len(product) != 0:
             break
         else:
-            print("Please enter a product name.")
+            print(Fore.WHITE + "Please enter a product name.")
     print(Fore.WHITE + f"How much have you been ivesting to advertise {product}")
     print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
     while True:
         budget = input(Fore.YELLOW + "Budget: $\n")
-        print("\n")
         if budget.isdigit():
             break
         else:
-            print(f"The Budget must be an interger.")
-    # Here we assum that the budget is shared equally among the social
-    # media platforms. We also assum that the cost per click is $2
+            print(Fore.WHITE + "The Budget must be an interger.")
     platform_investment = float(budget)/4
     clicks = int(platform_investment/ 2)
     return clicks, platform_investment, budget, product
@@ -73,6 +75,7 @@ def basic_info():
 def get_average_sales(clicks):
     """
     Get average number of sales made on each platform 
+    Sales can not be more than clicks.
     """
     while True:
         print(Fore.WHITE + f"What is the average number of sales you make")
@@ -212,15 +215,16 @@ def check_existing_product_strategy():
     strategies = SHEET.worksheet('investment_strategy')
     product_name = strategies.col_values(1)
     if prod in product_name:
-        print(Fore.GREEN + f"The product {prod} is in the worksheet")
+        print(Fore.GREEN + f"The product {prod} is in the worksheet with,")
         row_no = product_name.index(prod) + 1
         investment_ratio = strategies.row_values(row_no )
-        print(Fore.GREEN + f"{investment_ratio}")
+        print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
         print(Fore.WHITE + "Enter '1' to delete and any other key to go back to menu")
         delete = input(Fore.RED + "Delete? \n")
         if delete == '1':
-            strategies.delete_rows(2)
+            strategies.delete_rows(row_no)
+            print(f"{prod} has been deleted from investment sheet")
         else:
             main()
     else:
@@ -240,7 +244,7 @@ def main():
     print(Fore.WHITE +  f"Product marketers is an application that generates investment")
     print(f"strategies for advertising a product on four social media")
     print(f"platforms namely Facebook, Youtube, Instagram and TikTok\n")
-    print(f"What Do You Want To Do? (Enter menu item numbe and hit Enter)\n \n")
+    print(f"What Do You Want To Do? (Enter menu item number and hit Enter)\n \n")
     print(f"1 - Find investment strategy for a new product\n")
     print(f"2 - Check investment strategy for existing products\n")
     print(f"3 - Delete investment strategy for existing product\n")
