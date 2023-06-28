@@ -1,32 +1,17 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Product Marketers
 
-Welcome,
+Live URL: [Product Marketers](https://product-marketers-65388db1c310.herokuapp.com/)
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **March 14, 2023**
+Product marketers is designed to improve investment strategies for social media marketing companies or individuals who frequently advertise products on social media platforms like Facebook, Youtube, Instagram and Tiktok. Users will be able to improve investment strategy for each product and understand that some products sell better on some platforms than others. In case a new user sells thesame product as an old user, the new user is able to get an investment strategy and start his/her marketing immediatly with the strategy. Thus starting above average and saving some money. A user is also able to delete a product-investment strategy. This application is designed in Python and runs through a terminal.
 
-## Reminders
+## Project Goals
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+### User Goals
+- The user wants to improve social media sales of a product by better investing the budget he has and not just dividing the budget equally accross four social media platforms.
+- The user also wants to be able to check investment strategies for already registered products and also able to delete some product investment strategies from a saved word sheet.
 
-## Creating the Heroku app
+### Site Owner Goals
+- The site owner through the application, wants to collect data from user then then analyse and provide that data with an investment strategy for social media marketing.
+- The site owner also wants to provide new users with the ability to get existing investment strategies if they sell same products like old users.
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
-
-1. `heroku/python`
-2. `heroku/nodejs`
-
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
----
-
-Happy coding!
+## Design
