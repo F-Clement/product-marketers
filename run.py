@@ -38,29 +38,50 @@ def menu_select():
     if menu_item == "1":
         pass
     elif menu_item == "2":
-        check_existing_product_strategy()
+        product_info()
     elif menu_item == "3":
-        check_existing_product_strategy()
+        product_info()
     else:
         print(Fore.WHITE + "Please enter a valid menu item. \n")
         menu_select()
 
-def basic_info():
+
+def product_info():
     """
-    Get product name, how much user spends as investment and
-    sales made on each social media platform per week.
-    Here we assum that the budget is shared equally 
-    among the social media platforms.
+    Checks product if it is already in worksheet.
+    If yes it prints the investment ratio
+    If no it proceeds to create a strategy.
+    Also asks if you want to delete then follows the instrction.
     """
     print(Fore.WHITE + "Enter the name of the product you have been selling.")
     print(Fore.WHITE + "Example Phones, courses, cars, jewelries etc.\n")
     while True:
-        product = input(Fore.YELLOW + "Product:\n")
-        if len(product) != 0:
+        prod = input(Fore.YELLOW + "Product Name:\n")
+        if len(prod) != 0:
             break
         else:
             print(Fore.WHITE + "Please enter a product name.")
-    print(Fore.WHITE + f"How much have you been ivesting to advertise {product}")
+    strategies = SHEET.worksheet('investment_strategy')
+    product_name = strategies.col_values(1)
+    if prod in product_name:
+        
+        row_no = product_name.index(prod) + 1
+        investment_ratio = strategies.row_values(row_no )
+        print(Fore.GREEN + f"The product {prod} is in the worksheet with,")
+        print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
+        print("\n")
+        print(Fore.WHITE + "Enter '1' to delete and any other key to go back to menu")
+        delete = input(Fore.RED + "Delete? \n")
+        if delete == '1':
+            strategies.delete_rows(row_no)
+            print(f"{prod} has been deleted from investment sheet")
+        else:
+            main()
+    else:
+        print(Fore.WHITE + f"'{prod}' is not in worksheet.")
+        print(Fore.WHITE + f"Let's create a strategy for {prod}\n")
+
+    print(Fore.WHITE + f"How much have you been ivesting to advertise {prod}")
     print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
     while True:
         budget = input(Fore.YELLOW + "Budget: $\n")
@@ -70,7 +91,8 @@ def basic_info():
             print(Fore.WHITE + "The Budget must be an interger.")
     platform_investment = float(budget)/4
     clicks = int(platform_investment/ 2)
-    return clicks, platform_investment, budget, product
+    return clicks, platform_investment, budget, product      
+
 
 def get_average_sales(clicks):
     """
@@ -203,36 +225,6 @@ def validate_strategy(strategy, sales, platform_investment):
     print(Fore.GREEN + f"Expected total sales: {expected_total_sales}\n\n")
     goto_menu()  
 
-def check_existing_product_strategy():
-    """
-    When user enters products we check if it already
-    exist is our worksheet and then if it does the
-    product investment strategy will be shown to user
-    and also give user the ability to delete the data
-    """
-    print(Fore.WHITE + "Enter product name")
-    prod = input(Fore.YELLOW + "Product Name: ")
-    strategies = SHEET.worksheet('investment_strategy')
-    product_name = strategies.col_values(1)
-    if prod in product_name:
-        print(Fore.GREEN + f"The product {prod} is in the worksheet with,")
-        row_no = product_name.index(prod) + 1
-        investment_ratio = strategies.row_values(row_no )
-        print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
-        print("\n")
-        print(Fore.WHITE + "Enter '1' to delete and any other key to go back to menu")
-        delete = input(Fore.RED + "Delete? \n")
-        if delete == '1':
-            strategies.delete_rows(row_no)
-            print(f"{prod} has been deleted from investment sheet")
-        else:
-            main()
-    else:
-        print(Fore.WHITE + f"Strategy for product '{prod}' not found.\n")
-    goto_menu()
-
-
-
 def main():
     """
     Use print statements to welcome user and present a menu to select
@@ -251,7 +243,7 @@ def main():
     
 
     menu_select()
-    clicks, platform_investment, budget, product = basic_info()
+    clicks, platform_investment, budget, product = product_info()
     average_sales = get_average_sales(clicks)
     update_average_sales_worksheet(average_sales)
     diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
@@ -259,3 +251,4 @@ def main():
     investment_per_product = update_investment_strategy_worksheet(new_invest, product)
     validate_strategy(investment_per_product, average_sales, platform_investment)
 main()
+
