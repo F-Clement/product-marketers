@@ -15,6 +15,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('product_marketers')
 
+
 def goto_menu():
     """
     Get user to menu after finishing a task to avoid function
@@ -28,6 +29,7 @@ def goto_menu():
             break
         else:
             pass
+
 
 def menu_select():
     """
@@ -64,13 +66,12 @@ def product_info():
     strategies = SHEET.worksheet('investment_strategy')
     product_name = strategies.col_values(1)
     if prod in product_name:
-        
         row_no = product_name.index(prod) + 1
-        investment_ratio = strategies.row_values(row_no )
+        investment_ratio = strategies.row_values(row_no)
         print(Fore.GREEN + f"The product {prod} is in the worksheet with,")
         print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
-        print(Fore.WHITE + "Enter '1' to delete and any other key to go back to menu")
+        print(Fore.WHITE + "Enter '1' to delete and any other key for menu")
         delete = input(Fore.RED + "Delete? \n")
         if delete == '1':
             strategies.delete_rows(row_no)
@@ -89,14 +90,14 @@ def product_info():
             break
         else:
             print(Fore.WHITE + "The Budget must be an interger.")
-    platform_investment = float(budget)/4
-    clicks = int(platform_investment/ 2)
-    return clicks, platform_investment, budget, product      
+    p_investment = float(budget)/4
+    clicks = int(p_investment / 2)
+    return clicks, p_investment, budget, prod
 
 
 def get_average_sales(clicks):
     """
-    Get average number of sales made on each platform 
+    Get average number of sales made on each platform
     Sales can not be more than clicks.
     """
     while True:
@@ -113,23 +114,26 @@ def get_average_sales(clicks):
     average_sales_made = [int(value) for value in average_sales_values]
     return average_sales_made
 
+
 def validate_sales_count(sales_data, clicks):
     """
-    Validate the values use inputs as average sales to make sure 
-    that they are integers and sales is less than clicks
+    Validate the values use inputs as average sales to make
+    sure that they are integers and sales is less than clicks
     """
     try:
         [int(sale) for sale in sales_data]
         for sale in sales_data:
             if int(sale) > clicks:
                 raise ValueError(
-                    Fore.WHITE + f"The input '{sale}' for sales is not correct."
-                    f"Number of Sales cannot be more than Number of clicks. \n"
+                    Fore.WHITE + f"Input '{sale}' for sales is not correct."
+                    f"Number of sales can't be more than number of clicks. \n"
                 )
     except ValueError as e:
-        print(Fore.WHITE + f"Invalid data: {e} Please enter Integer values for sales made")
+        print(Fore.WHITE + f"Invalid data: {e}")
+        print("Enter Integer values for sales made")
         return False
     return True
+
 
 def update_average_sales_worksheet(sales_data):
     """
@@ -138,7 +142,8 @@ def update_average_sales_worksheet(sales_data):
     """
     average_sales_sheet = SHEET.worksheet('average_sales')
     average_sales_sheet.append_row(sales_data)
-    print(Fore.WHITE + f"Average sales values uploaded to worksheet successfully.\n")
+    print(Fore.WHITE + f"Average sales values uploaded to worksheet.\n")
+
 
 def update_diff_btw_clicks_and_sales(data, click):
     """
@@ -150,16 +155,17 @@ def update_diff_btw_clicks_and_sales(data, click):
     diff_btw_clicks_sales_sheet.append_row(diff)
     return diff
 
+
 def market_strategy(diff, clicks, investment, budget):
     """
     Calculate how much should be invested on each social media platform.
-    Calculations are based on the differences between clicks and sales to 
-    know which platform is best for a particular product. Invest $5 in
-    the worst performance case just to keep are advertising page running
+    Calculations are based on the differences between clicks and sales
+    to know which platform is best for the particular product. Invest $5 in
+    the worst performance case just to keep the advertising page running
     """
     investment_ratio = []
     sum_of_ratio = 0
-    strategised_investment = []
+    s_investment = []
     for value in diff:
         if value < clicks * 0.2:
             sum_to_invest = int(investment * 2)
@@ -179,9 +185,10 @@ def market_strategy(diff, clicks, investment, budget):
     for amount in investment_ratio:
         sum_of_ratio += int(amount)
     for i in range(0, 4):
-        strategised_investment.append((int(budget)/sum_of_ratio) * investment_ratio[i])
-        calculated_strategy = [int(value) for value in strategised_investment]
+        s_investment.append((int(budget)/sum_of_ratio) * investment_ratio[i])
+        calculated_strategy = [int(value) for value in s_investment]
     return calculated_strategy
+
 
 def update_investment_strategy_worksheet(data, product):
     """
@@ -191,11 +198,13 @@ def update_investment_strategy_worksheet(data, product):
     investment_strategy_sheet = SHEET.worksheet('investment_strategy')
     data.insert(0, product)
     investment_strategy_sheet.append_row(data)
-    print(Fore.WHITE + f"To make more {product} sales, Invest as instructed below.")
-    print(Fore.WHITE + f"[{product}, Facebook, Youtube, Instagram, TikTok] : {data}\n")
+    print(Fore.WHITE + f"To make more {product} sales, use strategy below.")
+    print(Fore.WHITE + f"[{product}, Facebook, Youtube, Instagram, TikTok]")
+    print(f"{data}\n")
     return data
 
-def validate_strategy(strategy, sales, platform_investment):
+
+def validate_strategy(strategy, sales, p_investment):
     """
     Verify that calculated investment strategy works better
     by calculating the expected sales and money invested
@@ -205,50 +214,50 @@ def validate_strategy(strategy, sales, platform_investment):
     expected_total_sales = 0
     for i in range(1, 5):
         sum_tobe_invested += strategy[i]
-        if strategy[i] > platform_investment:
-            change = strategy[i]/platform_investment
+        if strategy[i] > p_investment:
+            change = strategy[i]/p_investment
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
-        elif strategy[i] == platform_investment:
+        elif strategy[i] == p_investment:
             change = 1
             sales[i-1] = sales[i-1] * change
             expected_sales_with_strategy.append(sales[i-1])
         else:
-            change = platform_investment / strategy[i]
+            change = p_investment / strategy[i]
             sales[i-1] = sales[i-1] / change
             expected_sales_with_strategy.append(sales[i-1])
-    expected_sales = [int(sale) for sale in expected_sales_with_strategy ]        
+    expected_sales = [int(sale) for sale in expected_sales_with_strategy]
     print(Fore.GREEN + f"New sum to be invested is ${sum_tobe_invested}")
     print(Fore.GREEN + f"Expected sales: {expected_sales}")
     for sales in expected_sales:
         expected_total_sales += sales
     print(Fore.GREEN + f"Expected total sales: {expected_total_sales}\n\n")
-    goto_menu()  
+    goto_menu()
+
 
 def main():
     """
     Use print statements to welcome user and present a menu to select
-    a part of the application they want to use. Also include all other 
+    a part of the application they want to use. Also include all other
     functions.
     """
     print("\n")
-    print(Fore.BLUE + "_____------Welcome To Product Marketers------_____ \n")
-    print(Fore.WHITE +  f"Product marketers is an application that generates investment")
+    print(Fore.BLUE + "_____----Welcome To Product Marketers----_____ \n")
+    print(Fore.WHITE + f"Product marketers generates investment")
     print(f"strategies for advertising a product on four social media")
     print(f"platforms namely Facebook, Youtube, Instagram and TikTok\n")
-    print(f"What Do You Want To Do? (Enter menu item number and hit Enter)\n \n")
+    print(f"Select menu item number and hit Enter)\n \n")
     print(f"1 - Find investment strategy for a new product\n")
     print(f"2 - Check investment strategy for existing products\n")
     print(f"3 - Delete investment strategy for existing product\n")
-    
-
     menu_select()
-    clicks, platform_investment, budget, product = product_info()
+    clicks, p_investment, budget, product = product_info()
     average_sales = get_average_sales(clicks)
     update_average_sales_worksheet(average_sales)
-    diff_btw_sales_clicks = update_diff_btw_clicks_and_sales(average_sales, clicks)
-    new_invest = market_strategy(diff_btw_sales_clicks, clicks, platform_investment, budget )
-    investment_per_product = update_investment_strategy_worksheet(new_invest, product)
-    validate_strategy(investment_per_product, average_sales, platform_investment)
-main()
+    clicks_sales = update_diff_btw_clicks_and_sales(average_sales, clicks)
+    new_invest = market_strategy(clicks_sales, clicks, p_investment, budget)
+    investments = update_investment_strategy_worksheet(new_invest, product)
+    validate_strategy(investments, average_sales, p_investment)
 
+
+main()
