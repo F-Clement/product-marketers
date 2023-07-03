@@ -22,7 +22,7 @@ def goto_menu():
     continously running even without user requesting
     """
     while True:
-        print(Fore.WHITE + "Enter '1' to return to main Menu")
+        print(Fore.YELLOW + "Enter '1' to return to main Menu")
         key = input("Return to Menu? \n")
         if key == "1":
             main()
@@ -37,7 +37,9 @@ def menu_select():
     to what part of the application the user want to use.
     """
     menu_item = input(Fore.YELLOW + "Enter Menu Number: \n")
-    if menu_item == "1":
+    if menu_item == "0":
+        instructions()
+    elif menu_item == "1":
         pass
     elif menu_item == "2":
         product_info()
@@ -117,7 +119,7 @@ def get_average_sales(clicks):
 
 def validate_sales_count(sales_data, clicks):
     """
-    Validate the values use inputs as average sales to make
+    Validate the values user inputs as average sales to make
     sure that they are integers and sales is less than clicks
     """
     try:
@@ -235,6 +237,18 @@ def validate_strategy(strategy, sales, p_investment):
     goto_menu()
 
 
+def instructions():
+    print(Fore.WHITE + "===== A SIMPLE GUIDE ======\n")
+    print("1 - What has been assumed")
+    print("  * All users market on Youtube, Facebook, Instagram & Tiktok.")
+    print("  * The cost per click (cpc) on the various platforms is $2. ")
+    print("  * User used to divide budget equally among the platforms.")
+    print("\n")
+    print("2 - Number of sales can't exceed number of clicks on each media.\n")
+    print("3 - Reading prompts carefully will help improve user experience.\n")
+    goto_menu()
+
+
 def main():
     """
     Use print statements to welcome user and present a menu to select
@@ -243,10 +257,14 @@ def main():
     """
     print("\n")
     print(Fore.BLUE + "_____----Welcome To Product Marketers----_____ \n")
-    print(Fore.WHITE + f"Product marketers generates investment")
-    print(f"strategies for advertising a product on four social media")
-    print(f"platforms namely Facebook, Youtube, Instagram and TikTok\n")
-    print(f"Select menu item number and hit Enter)\n \n")
+    print(Fore.WHITE + "______________________________________________\n")
+    print("Product marketers is an application that generates an investment")
+    print("strategy for advertising a product on four popular social media")
+    print("platforms namely Facebook, Youtube, Instagram and TikTok. It uses")
+    print("previous experience to guide you on how to divide your budget")
+    print("across these social media platforms.\n")
+    print(f"Input a menu item number and hit Enter)\n \n")
+    print("0 - A simple guide\n")
     print(f"1 - Find investment strategy for a new product\n")
     print(f"2 - Check investment strategy for existing products\n")
     print(f"3 - Delete investment strategy for existing product\n")
