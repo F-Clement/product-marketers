@@ -39,12 +39,8 @@ def menu_select():
     menu_item = input(Fore.YELLOW + "Enter Menu Number: \n")
     if menu_item == "0":
         instructions()
-    elif menu_item == "1":
+    elif menu_item == "1" or "2" or "3":
         pass
-    elif menu_item == "2":
-        product_info()
-    elif menu_item == "3":
-        product_info()
     else:
         print(Fore.WHITE + "Please enter a valid menu item. \n")
         menu_select()
@@ -78,12 +74,19 @@ def product_info():
         if delete == '1':
             strategies.delete_rows(row_no)
             print(f"{prod} has been deleted from investment sheet")
+            main()
         else:
+            print(f"{prod} has not been deleted. Investment still valid!")
             main()
     else:
-        print(Fore.WHITE + f"'{prod}' is not in worksheet.")
-        print(Fore.WHITE + f"Let's create a strategy for {prod}\n")
-
+        print(Fore.WHITE + f"\n'{prod}' is not in worksheet.")
+        print(Fore.WHITE + f"We can create investment strategy for {prod}\n")
+        print("Enter '1' to create strategy and any other key for main menu")
+        create_strategy = input("Create Strategy? \n")
+        if create_strategy == "1":
+            pass
+        else:
+            main()
     print(Fore.WHITE + f"How much have you been ivesting to advertise {prod}")
     print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
     while True:
