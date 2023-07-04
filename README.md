@@ -24,3 +24,67 @@ Once the user runs the program an ordered menu will be displayed. This menu show
 
 
 ## Testing
+- In the table below we present a couple of actions, expected out comes and resutls.
+
+<table>
+<tr>
+<th>Action</td>
+<th>Expected Results</td>
+<th>Actual Results</td>
+</tr>
+<tr>
+<td>Hit enter without selecting a menu item or enter a menu item that is invalid and hit enter</td>
+<td>User is notified that the input is invalid and given another chance to enter a menu item</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Enter menu number 0 and hit enter key</td>
+<td>A simple guide on how the application works is displayed</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Enter menu number 1 and hit enter key </td>
+<td>Application prompts user to enter a product name, budget, and previous average sales. Then calculates and displays investment strategy for that product.</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>User selects menu 1 and enters a product name that already exist.</td>
+<td>The application finds the investment strategy for that product and displays to the user then ask if they want to delete.</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Enter menu number 2 and hits enter.</td>
+<td>Application prompts user to enter a product name, then finds the investment strategy from the investment strategy worksheet and displays it</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>User selects menu number 2 and enters a product that does not exist in the investment strategy worksheet</td>
+<td>Application tells user that the product does not exist in works sheet the proposes to create a new investment strategy for the product</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Enter menu number 3 and hit enter</td>
+<td>Application prompts user to enter a product name, and then searches for that product for investment strategy worksheet, then displays the investment strategy before asking user to confirm delete.</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>User selects menu number 3 and enters a product that does not exist in investment strategy worksheet</td>
+<td>Applications tell the user the product does not exist and proposes to create and investment strategy for the corresponding product</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>User hits enter without typing anything when application request for product name.</td>
+<td>Application ask user to enter a valid product name which could be anything except for and empty data</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>User enters a string when prompt to enter budget</td>
+<td>Application rejects invalid data and asks user to enter a number</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>User enters an invalid data for at least one of the social media platforms when asked to enter number of sales.</td>
+<td>Application treats it as invalid data and askes user to reenter the number of sales for the four different platforms</td>
+<td>Pass</td>
+</tr>
+</table>
