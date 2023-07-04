@@ -22,12 +22,13 @@ def goto_menu():
     continously running even without user requesting
     """
     while True:
-        print(Fore.YELLOW + "Enter '1' to return to main Menu")
+        print(Fore.YELLOW + "Hit Enter key to return to main Menu")
         key = input("Return to Menu? \n")
-        if key == "1":
+        if key == "":
             main()
             break
         else:
+            print("Invalid input! \n")
             pass
 
 
@@ -39,7 +40,7 @@ def menu_select():
     menu_item = input(Fore.YELLOW + "Enter Menu Number: \n")
     if menu_item == "0":
         instructions()
-    elif menu_item == "1" or "2" or "3":
+    elif menu_item == "1" or menu_item == "2" or menu_item == "3"== "2" or menu_item == "3":
         pass
     else:
         print(Fore.WHITE + "Please enter a valid menu item. \n")
@@ -79,7 +80,7 @@ def product_info():
             print(f"{prod} has not been deleted. Investment still valid!")
             main()
     else:
-        print(Fore.WHITE + f"\n'{prod}' is not in worksheet.")
+        print(Fore.WHITE + f"\n{prod} is not already in investment worksheet.")
         print(Fore.WHITE + f"We can create investment strategy for {prod}\n")
         print("Enter '1' to create strategy and any other key for main menu")
         create_strategy = input("Create Strategy? \n")
@@ -147,7 +148,7 @@ def update_average_sales_worksheet(sales_data):
     """
     average_sales_sheet = SHEET.worksheet('average_sales')
     average_sales_sheet.append_row(sales_data)
-    print(Fore.WHITE + f"Average sales values uploaded to worksheet.\n")
+    print(Fore.WHITE + f"Values uploaded to average_sales worksheet.\n")
 
 
 def update_diff_btw_clicks_and_sales(data, click):
