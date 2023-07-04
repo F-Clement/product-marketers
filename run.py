@@ -40,7 +40,7 @@ def menu_select():
     menu_item = input(Fore.YELLOW + "Enter Menu Number: \n")
     if menu_item == "0":
         instructions()
-    elif menu_item == "1" or menu_item == "2" or menu_item == "3"== "2" or menu_item == "3":
+    elif menu_item == "1" or menu_item == "2" or menu_item == "3":
         pass
     else:
         print(Fore.WHITE + "Please enter a valid menu item. \n")
@@ -70,14 +70,20 @@ def product_info():
         print(Fore.GREEN + f"The product {prod} is in the worksheet with,")
         print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
-        print(Fore.WHITE + "Enter '1' to delete and any other key for menu")
+        print(Fore.WHITE + "Hit enter to delete or input other key for menu")
         delete = input(Fore.RED + "Delete? \n")
-        if delete == '1':
-            strategies.delete_rows(row_no)
-            print(f"{prod} has been deleted from investment sheet")
-            main()
+        if delete == "":
+            print(f"Do you really want to delete {prod}?")
+            print("Input 'YES' to confirm or any other key to cancel")
+            confirm_delete = input("Confirm delete?\n")
+            if confirm_delete == "YES":
+                strategies.delete_rows(row_no)
+                print(f"{prod} has been deleted from investment sheet")
+                main()
+            else:
+                print(f"{prod} has not been deleted. Investment still valid!")
+                main()
         else:
-            print(f"{prod} has not been deleted. Investment still valid!")
             main()
     else:
         print(Fore.WHITE + f"\n{prod} is not already in investment worksheet.")
