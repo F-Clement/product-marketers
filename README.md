@@ -1,5 +1,7 @@
 # Product Marketers
 
+![Display](images/display.png)
+
 Live URL: [Product Marketers](https://product-marketers-65388db1c310.herokuapp.com/)
 
 Product marketers is designed to improve investment strategies for social media marketing companies or individuals who frequently advertise products on social media platforms like Facebook, Youtube, Instagram and Tiktok. Users will be able to improve investment strategy for each product and understand that some products sell better on some platforms than others. In case a new user sells thesame product as an old user, the new user is able to get an investment strategy and start his/her marketing immediatly with the strategy. Thus starting above average and saving some money. A user is also able to delete a product-investment strategy. It is assumed that before using this application, the user usually divides his budget into four equal halves for the different platforms. We also assume that the cost per click here is $2. This application is designed in Python and runs through a terminal.
@@ -43,12 +45,8 @@ A user can always come back to verify that the strategy they are using is actual
 In case a user no longer sells a product, they can always delete it to free up some space. After deleting the user is notified as shown below.
 ![Delete Strategy](images/deleteproduct.png)
 
-
-
-
-
 ## Testing
-- In the table below we present a couple of actions, expected out comes and resutls.
+- In the table below we present a couple of manual test actions carried out with valid and invalid input, expected out comes and resutls. 
 
 <table>
 <tr>
@@ -112,3 +110,36 @@ In case a user no longer sells a product, they can always delete it to free up s
 <td>Pass</td>
 </tr>
 </table>
+-There are no input validation problems the developer is aware of and the application should now run without breaking.
+
+
+## Bugs & Fixes
+<table>
+<tr>
+<th>Bug
+<th>Fix
+</tr>
+<tr>
+<td>The application usualy provide and investment strategy with total amount to invest slightly less than initial amount.</td>
+<td>This is due to some digits round down to whole numbers. However it causes no damages as money is saved while making more sales than before.</td>
+</table>
+
+## Deployment
+
+This application was deployed on Heroku. Below are the steps taken to successfully deploy.
+
+1 - The requirment.txt file was populated using the command "pip3 freeze > requirements.txt"
+
+2 - Then we move to Heroku dashboard and create a new app. The app was named product-marketers just like the application and Europe was selected for region because the developer is in Germany.
+
+3 - Then we move the settings and after selecting product-marketers app we also click Reveal Config Vars to set the environment variables.
+
+4 - Two key and value pairs were filled. The first one was CREDS and the value was the content of the creds.json file. The second key was PORT and the value was 8000.
+
+5 - Two buildpacks were then added. Python and Nodejs making sure Python was ontop before saving and moving to deploy.
+
+6 - The next steps were clicking the deploy tab, selecting Github, searching the project by its name and then connecting to Heroku by clicking connect.
+
+7 - Then clicking on Deploy Branch to complete the deploy. This application does not automatically deploy so each time the developer makes changes they have to come and deploy manually.
+
+8 - Finally the application is deployed live to URL: https://product-marketers-65388db1c310.herokuapp.com/
