@@ -45,9 +45,10 @@ def menu_select():
     else:
         print(Fore.WHITE + "Please enter a valid menu item. \n")
         menu_select()
+    return menu_item
 
 
-def product_info():
+def product_info(menu):
     """
     Checks product if it is already in worksheet.
     If yes it prints the investment ratio
@@ -70,41 +71,47 @@ def product_info():
         print(Fore.GREEN + f"The product {prod} is in the worksheet with,")
         print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
-        print(Fore.WHITE + "Hit enter to delete or input other key for menu")
-        delete = input(Fore.RED + "Delete? \n")
-        if delete == "":
-            print(f"Do you really want to delete {prod}?")
-            print("Input 'YES' to confirm or any other key to cancel")
-            confirm_delete = input("Confirm delete?\n")
-            if confirm_delete == "YES":
-                strategies.delete_rows(row_no)
-                print(f"{prod} has been deleted from investment sheet")
-                main()
+        if menu == "3":
+            print(Fore.WHITE + "Hit enter to delete or input other key for menu")
+            delete = input(Fore.RED + "Delete? \n")
+            if delete == "":
+                print(f"Do you really want to delete {prod}?")
+                print("Input 'YES' to confirm or any other key to cancel")
+                confirm_delete = input("Confirm delete?\n")
+                if confirm_delete == "YES":
+                    strategies.delete_rows(row_no)
+                    print(f"{prod} has been deleted from investment sheet")
+                    main()
+                else:
+                    print(f"{prod} has not been deleted. Investment still valid!")
+                    main()
             else:
-                print(f"{prod} has not been deleted. Investment still valid!")
                 main()
         else:
-            main()
+            pass        
     else:
-        print(Fore.WHITE + f"\n{prod} is not already in investment worksheet.")
-        print(Fore.WHITE + f"We can create investment strategy for {prod}\n")
-        print("Enter '1' to create strategy and any other key for main menu")
-        create_strategy = input("Create Strategy? \n")
-        if create_strategy == "1":
+        if menu == "1":
             pass
-        else:
-            main()
-    print(Fore.WHITE + f"How much have you been ivesting to advertise {prod}")
-    print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
-    while True:
-        budget = input(Fore.YELLOW + "Budget: $\n")
-        if budget.isdigit():
-            break
-        else:
-            print(Fore.WHITE + "The Budget must be an interger.")
-    p_investment = float(budget)/4
-    clicks = int(p_investment / 2)
-    return clicks, p_investment, budget, prod
+        elif menu == "2":
+            print(Fore.RED + f"\n{prod} is not in worksheet")
+            print(f"Do you want to create an investment strategy for {prod}?")
+            print(f"Hit enter to create new strategy or input any key for menu")
+            create = input("Add product to investment worksheet?\n")
+            if create == "":
+                pass
+            else:
+                main()
+        print(Fore.WHITE + f"How much have you been ivesting to advertise {prod}")
+        print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
+        while True:
+            budget = input(Fore.YELLOW + "Budget: $\n")
+            if budget.isdigit():
+                break
+            else:
+                print(Fore.WHITE + "The Budget must be an interger.")
+        p_investment = float(budget)/4
+        clicks = int(p_investment / 2)
+        return clicks, p_investment, budget, prod
 
 
 def get_average_sales(clicks):
@@ -115,6 +122,7 @@ def get_average_sales(clicks):
     while True:
         print(Fore.WHITE + f"What is the average number of sales you make")
         print(Fore.WHITE + f"on each of the following platforms every week?\n")
+        print(f"* No: of sales must be less or equal No: of clicks. ({clicks})")
         facebook = input(Fore.YELLOW + "Facebook:\n")
         youtube = input(Fore.YELLOW + "Youtube:\n")
         instagram = input(Fore.YELLOW + "Instagram:\n")
@@ -154,7 +162,6 @@ def update_average_sales_worksheet(sales_data):
     """
     average_sales_sheet = SHEET.worksheet('average_sales')
     average_sales_sheet.append_row(sales_data)
-    print(Fore.WHITE + f"Values uploaded to average_sales worksheet.\n")
 
 
 def update_diff_btw_clicks_and_sales(data, click):
@@ -273,13 +280,13 @@ def main():
     print("platforms namely Facebook, Youtube, Instagram and TikTok. It uses")
     print("previous experience to guide you on how to divide your budget")
     print("across these social media platforms.\n")
-    print(f"Input a menu item number and hit Enter)\n \n")
+    print(f"Input a menu item number and hit Enter :)\n \n")
     print("0 - A simple guide\n")
     print(f"1 - Find investment strategy for a new product\n")
     print(f"2 - Check investment strategy for existing products\n")
     print(f"3 - Delete investment strategy for existing product\n")
-    menu_select()
-    clicks, p_investment, budget, product = product_info()
+    menu = menu_select()
+    clicks, p_investment, budget, product = product_info(menu)
     average_sales = get_average_sales(clicks)
     update_average_sales_worksheet(average_sales)
     clicks_sales = update_diff_btw_clicks_and_sales(average_sales, clicks)
