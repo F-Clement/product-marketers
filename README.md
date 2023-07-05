@@ -21,6 +21,30 @@ Lucid Chart was used to design the flow of this program. It runs through a termi
 - Start Menu
 
 Once the user runs the program an ordered menu will be displayed. This menu shows the various things that a user can do with this application. By selecting one of the and hitting enter the user will then get the required results.
+![Main Menu](images/menu.png)
+
+- A simple Guide
+
+The user can better understand how the application woks after reading this guide. It also tells the user what has been assumed to bring out the results.
+![Main Menu](images/guide.png)
+
+- Find investment strategy for new product
+
+To get a strategy to market a new product, user selects menu 1 and then inputs the data as prompted. Then at the end the application provides the user with a new marketing strategy.
+![New Product Strategy](images/newproduct.png)
+
+- Check investment strategy for existing product
+
+A user can always come back to verify that the strategy they are using is actually the strategy provided by the application. They just need to select 2 and enter the product name as prompted.
+![Existing Strategy](images/existingproduct.png)
+
+- Delete investment strategy for existing product
+
+In case a user no longer sells a product, they can always delete it to free up some space. After deleting the user is notified as shown below.
+![Delete Strategy](images/deleteproduct.png)
+
+
+
 
 
 ## Testing
@@ -49,11 +73,11 @@ Once the user runs the program an ordered menu will be displayed. This menu show
 </tr>
 <tr>
 <td>User selects menu 1 and enters a product name that already exist.</td>
-<td>The application finds the investment strategy for that product and displays to the user then ask if they want to delete.</td>
+<td>The application finds the investment strategy for that product and displays to the user.</td>
 <td>Pass</td>
 </tr>
 <tr>
-<td>Enter menu number 2 and hits enter.</td>
+<td>Enter menu number 2 and hit enter.</td>
 <td>Application prompts user to enter a product name, then finds the investment strategy from the investment strategy worksheet and displays it</td>
 <td>Pass</td>
 </tr>
@@ -64,12 +88,12 @@ Once the user runs the program an ordered menu will be displayed. This menu show
 </tr>
 <tr>
 <td>Enter menu number 3 and hit enter</td>
-<td>Application prompts user to enter a product name, and then searches for that product for investment strategy worksheet, then displays the investment strategy before asking user to confirm delete.</td>
+<td>Application prompts user to enter a product name, and then searches for that product for investment strategy worksheet, then displays the investment strategy.</td>
 <td>Pass</td>
 </tr>
 <tr>
 <td>User selects menu number 3 and enters a product that does not exist in investment strategy worksheet</td>
-<td>Applications tell the user the product does not exist and proposes to create and investment strategy for the corresponding product</td>
+<td>Applications tell the user the product does not exist and so can not be deleted.</td>
 <td>Pass</td>
 </tr>
 <tr>

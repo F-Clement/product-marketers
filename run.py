@@ -75,7 +75,7 @@ def product_info(menu):
         print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
         if menu == "3":
-            print(Fore.WHITE + "Hit enter to delete otherwise any key for menu")
+            print(Fore.WHITE + "Hit enter to delete & any other key for menu")
             delete = input(Fore.RED + "Delete? \n")
             if delete == "":
                 print(f"Do you really want to delete {prod}?")
@@ -86,12 +86,12 @@ def product_info(menu):
                     print(f"{prod} has been deleted from investment sheet")
                     main()
                 else:
-                    print(Fore.GREEN + f"{prod} not deleted it is still valid!")
+                    print(Fore.GREEN + f"{prod} not deleted. Still valid!")
                     main()
             else:
                 main()
         else:
-            goto_menu()        
+            goto_menu()
     else:
         if menu == "1":
             pass
@@ -99,17 +99,17 @@ def product_info(menu):
             print(Fore.RED + f"\n{prod} is not in worksheet")
             print(f"Do you want to create an investment strategy for {prod}?")
             print(Fore.WHITE + "\n")
-            print(f"Hit enter to create new strategy or input any key for menu")
+            print(f"Hit enter for new strategy or input any key for menu")
             create = input("Add product to investment worksheet?\n")
             if create == "":
                 pass
             else:
                 main()
         else:
-            print(f"You can't delete {prod}. It does not exist in worksheet.\n")
+            print(f"{prod} is not in investment worksheet..\n")
             goto_menu()
-        print(Fore.WHITE + f"How much have you being ivesting to advertise {prod}")
-        print(Fore.WHITE + "per week on Facebook, Youtube, Instagram & Tiktok?")
+        print(Fore.WHITE + f"Enter amount you have being investing on {prod}")
+        print(Fore.WHITE + "weekly for Facebook, Youtube, Instagram & Tiktok")
         while True:
             budget = input(Fore.YELLOW + "Budget: $\n")
             if budget.isdigit():
