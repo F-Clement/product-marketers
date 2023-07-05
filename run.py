@@ -71,11 +71,11 @@ def product_info(menu):
     if prod in product_name:
         row_no = product_name.index(prod) + 1
         investment_ratio = strategies.row_values(row_no)
-        print(Fore.GREEN + f"The product {prod} is in the worksheet with,")
+        print(Fore.GREEN + f"{prod} is in the worksheet with,")
         print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
         if menu == "3":
-            print(Fore.WHITE + "Hit enter to delete or input other key for menu")
+            print(Fore.WHITE + "Hit enter to delete otherwise any key for menu")
             delete = input(Fore.RED + "Delete? \n")
             if delete == "":
                 print(f"Do you really want to delete {prod}?")
@@ -86,7 +86,7 @@ def product_info(menu):
                     print(f"{prod} has been deleted from investment sheet")
                     main()
                 else:
-                    print(f"{prod} has not been deleted. Investment still valid!")
+                    print(Fore.GREEN + f"{prod} not deleted it is still valid!")
                     main()
             else:
                 main()
@@ -98,6 +98,7 @@ def product_info(menu):
         elif menu == "2":
             print(Fore.RED + f"\n{prod} is not in worksheet")
             print(f"Do you want to create an investment strategy for {prod}?")
+            print(Fore.WHITE + "\n")
             print(f"Hit enter to create new strategy or input any key for menu")
             create = input("Add product to investment worksheet?\n")
             if create == "":
@@ -107,8 +108,8 @@ def product_info(menu):
         else:
             print(f"You can't delete {prod}. It does not exist in worksheet.\n")
             goto_menu()
-        print(Fore.WHITE + f"How much have you been ivesting to advertise {prod}")
-        print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
+        print(Fore.WHITE + f"How much have you being ivesting to advertise {prod}")
+        print(Fore.WHITE + "per week on Facebook, Youtube, Instagram & Tiktok?")
         while True:
             budget = input(Fore.YELLOW + "Budget: $\n")
             if budget.isdigit():
@@ -279,7 +280,7 @@ def main():
     functions.
     """
     print("\n")
-    print(Fore.BLUE + "_____----Welcome To Product Marketers----_____ \n")
+    print(Fore.BLUE + "_____----Welcome To Product Marketers----_____")
     print(Fore.WHITE + "______________________________________________\n")
     print("Product marketers is an application that generates an investment")
     print("strategy for advertising a product on four popular social media")
