@@ -55,16 +55,19 @@ def product_info(menu):
     If no it proceeds to create a strategy.
     Also asks if you want to delete then follows the instrction.
     """
+    strategies = SHEET.worksheet('investment_strategy')
+    product_name = strategies.col_values(1)
     print(Fore.WHITE + "Enter the name of the product you have been selling.")
-    print(Fore.WHITE + "Example Phones, courses, cars, jewelries etc.\n")
+    if menu == "2" or menu == "3":
+        print(Fore.GREEN + f"Example: \n{product_name}.\n")
+    else:
+        pass
     while True:
         prod = input(Fore.YELLOW + "Product Name:\n")
         if len(prod) != 0:
             break
         else:
             print(Fore.WHITE + "Please enter a product name.")
-    strategies = SHEET.worksheet('investment_strategy')
-    product_name = strategies.col_values(1)
     if prod in product_name:
         row_no = product_name.index(prod) + 1
         investment_ratio = strategies.row_values(row_no)
@@ -76,7 +79,7 @@ def product_info(menu):
             delete = input(Fore.RED + "Delete? \n")
             if delete == "":
                 print(f"Do you really want to delete {prod}?")
-                print("Input 'YES' to confirm or any other key to cancel")
+                print("Input 'YES' to confirm, & any other thing to cancel")
                 confirm_delete = input("Confirm delete?\n")
                 if confirm_delete == "YES":
                     strategies.delete_rows(row_no)
@@ -88,7 +91,7 @@ def product_info(menu):
             else:
                 main()
         else:
-            pass        
+            goto_menu()        
     else:
         if menu == "1":
             pass
@@ -101,6 +104,9 @@ def product_info(menu):
                 pass
             else:
                 main()
+        else:
+            print(f"You can't delete {prod}. It does not exist in worksheet.\n")
+            goto_menu()
         print(Fore.WHITE + f"How much have you been ivesting to advertise {prod}")
         print(Fore.WHITE + "per week on Facebook, Youtube, Instagram and Tiktok?")
         while True:
@@ -122,7 +128,7 @@ def get_average_sales(clicks):
     while True:
         print(Fore.WHITE + f"What is the average number of sales you make")
         print(Fore.WHITE + f"on each of the following platforms every week?\n")
-        print(f"* No: of sales must be less or equal No: of clicks. ({clicks})")
+        print(f"* No: of sales must be less or equal No: of clicks({clicks})")
         facebook = input(Fore.YELLOW + "Facebook:\n")
         youtube = input(Fore.YELLOW + "Youtube:\n")
         instagram = input(Fore.YELLOW + "Instagram:\n")
