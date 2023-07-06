@@ -43,7 +43,7 @@ def menu_select():
     elif menu_item == "1" or menu_item == "2" or menu_item == "3":
         pass
     else:
-        print(Fore.WHITE + "Please enter a valid menu item. \n")
+        print(Fore.WHITE + "Please enter a valid menu number. \n")
         menu_select()
     return menu_item
 
@@ -57,7 +57,7 @@ def product_info(menu):
     """
     strategies = SHEET.worksheet('investment_strategy')
     product_name = strategies.col_values(1)
-    print(Fore.WHITE + "Enter the name of the product you have been selling.")
+    print(Fore.WHITE + "Enter the name of the product.")
     if menu == "2" or menu == "3":
         print(Fore.GREEN + f"Example: \n{product_name}.\n")
     else:
@@ -258,6 +258,12 @@ def validate_strategy(strategy, sales, p_investment):
     for sales in expected_sales:
         expected_total_sales += sales
     print(Fore.GREEN + f"Expected total sales: {expected_total_sales}\n\n")
+    if expected_total_sales == 0:
+        print(f"\nThe amount invested is very low. You are making sales")
+        print("by chance. Stick to your original investment. I am")
+        print("just a machine and I can't help you this time. Sorry!")
+    else:
+        pass
     goto_menu()
 
 

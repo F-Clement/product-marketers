@@ -14,10 +14,34 @@ Product marketers is designed to improve investment strategies for social media 
 
 ### Site Owner Goals
 - The site owner through the application, wants to collect data from user then then analyse and provide that data with an investment strategy for social media marketing.
-- The site owner also wants to provide new users with the ability to get existing investment strategies if they sell same products like old users.
+- The site owner also wants to provide new users with the option to get existing investment strategies if they sell same products like old users.
+- The site owner wants the user to be able to delete old strategies and free up some space.
 
 ## Design
 Lucid Chart was used to design the flow of this program. It runs through a terminal so the display is thesame on every device.
+
+## Technologies Used
+
+- Languages
+
+    - Python Programming Language
+
+- Tools
+
+    - Codeanywhere
+    - Google spreadsheets
+    - Lucid Charts
+    - Heroku
+    - Git
+    - Github
+    - CI Python Linter
+
+- Libraries
+    - gspread
+    - openpyxl
+    - colorama
+    - google.oauth2
+
 
 ## Existing Features
 - Start Menu
@@ -46,6 +70,11 @@ In case a user no longer sells a product, they can always delete it to free up s
 ![Delete Strategy](images/deleteproduct.png)
 
 ## Testing
+
+- PEP8 CI Python Linter
+No erros found in our code as show below.
+
+
 - In the table below we present a couple of manual test actions carried out with valid and invalid input, expected out comes and resutls. 
 
 <table>
@@ -122,6 +151,9 @@ In case a user no longer sells a product, they can always delete it to free up s
 <tr>
 <td>The application usualy provide and investment strategy with total amount to invest slightly less than initial amount.</td>
 <td>This is due to some digits round down to whole numbers. However it causes no damages as money is saved while making more sales than before.</td>
+<tr>
+<td>Inputting very low investment amounts resulting to very low sales will yield an investment strategy with an expected total sales of zero. Which might be poor compared to original sales.</td>
+<td>Not totally fixed but when user gets such results, the application goes further to apologize for it is just a machine and even ask them to stick to their original investment strategy.
 </table>
 
 ## Deployment
@@ -143,3 +175,14 @@ This application was deployed on Heroku. Below are the steps taken to successful
 7 - Then clicking on Deploy Branch to complete the deploy. This application does not automatically deploy so each time the developer makes changes they have to come and deploy manually.
 
 8 - Finally the application is deployed live to URL: https://product-marketers-65388db1c310.herokuapp.com/
+
+
+## Credits
+
+- Media
+
+We have no images on the application. However all images on the readme file itself are screenshots demonstrating different features of the application.
+
+- Code
+
+ The idea to improve sales this way is original and not copied from anywhere. However it is many thanks to code institute "Love Sandwiches" project that we could better understand how to validate data, give feedback if it is invalid before processing.
