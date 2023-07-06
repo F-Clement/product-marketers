@@ -19,6 +19,7 @@ Product marketers is designed to improve investment strategies for social media 
 
 ## Design
 Lucid Chart was used to design the flow of this program. It runs through a terminal so the display is thesame on every device.
+![Code Flow](images/codeflow.png)
 
 ## Technologies Used
 
@@ -73,7 +74,7 @@ In case a user no longer sells a product, they can always delete it to free up s
 
 - PEP8 CI Python Linter
 No erros found in our code as show below.
-
+![PEP8 Testing](images/peptesting.png)
 
 - In the table below we present a couple of manual test actions carried out with valid and invalid input, expected out comes and resutls. 
 
@@ -178,11 +179,18 @@ This application was deployed on Heroku. Below are the steps taken to successful
 
 
 ## Credits
+- Deployement
+
+Thanks to Code Institute for directions on deployment.
 
 - Media
 
-We have no images on the application. However all images on the readme file itself are screenshots demonstrating different features of the application.
+We have no images on the application. However all images on the readme file itself are screenshots demonstrating different features of the application. We also have a screenshot of the PEP8 CI Linther Test.
 
 - Code
 
  The idea to improve sales this way is original and not copied from anywhere. However it is many thanks to code institute "Love Sandwiches" project that we could better understand how to validate data, give feedback if it is invalid before processing.
+
+ A lot of free content on the internet with [Stack Overflow](https://stackoverflow.com/) being my favourite.
+
+Many thanks to my mentor and the CI Slack Channel for support.
