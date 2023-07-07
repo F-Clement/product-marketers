@@ -80,6 +80,21 @@ In case a user no longer sells a product, they can always delete it to free up s
 No erros found in our code as show below.
 ![PEP8 Testing](images/peptesting.png)
 
+- HTML Validator
+
+No errors found.
+![HTML Validator](images/html.png)
+
+- CSS Validator
+
+No errors found.
+![CSS Validator](images/css.png)
+
+- Lighthouse Check
+
+Good performance as show below.
+![Lighthouse](images/lighthouse.png)
+
 - In the table below we present a couple of manual test actions carried out with valid and invalid input, expected out comes and resutls. 
 
 <table>
@@ -189,7 +204,7 @@ Thanks to Code Institute for directions on deployment.
 
 - Media
 
-We have no images on the application. However all images on the readme file itself are screenshots demonstrating different features of the application. We also have a screenshot of the PEP8 CI Linther Test.
+We have no images on the application. However all images on the readme file itself are screenshots demonstrating different features of the application. We also have a screenshot of the PEP8 CI Linther Test, lighthouse test, html and css validators.
 
 - Code
 
