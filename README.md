@@ -39,9 +39,13 @@ Lucid Chart was used to design the flow of this program. It runs through a termi
 
 - Libraries
     - gspread
+        - This is the python API for google sheets enabling us to open, read, inseart, delete data from our spread sheet.
     - openpyxl
+        - Used openpyxl to be able to delete data from our work sheet
     - colorama
+        - colorama is for beautifying the terminal display with colors.
     - google.oauth2
+        - This is the authorisation protocol used by google API to keep our credentials private.
 
 
 ## Existing Features

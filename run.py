@@ -75,21 +75,26 @@ def product_info(menu):
         print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
         if menu == "3":
-            print(Fore.WHITE + "Hit enter to delete & any other key for menu")
+            print(Fore.WHITE + f"Hit enter to delete {prod} or enter any")
+            print("othey key to cancel the choice to delete.")
             delete = input(Fore.RED + "Delete? \n")
             if delete == "":
                 print(f"Do you really want to delete {prod}?")
-                print("Input 'YES' to confirm, & any other thing to cancel")
+                print("Input 'YES' to confirm delete or enter any other")
+                print(f"key to cancel the choice to delete {prod}")
+                print(Fore.YELLOW + "\n")
                 confirm_delete = input("Confirm delete?\n")
                 if confirm_delete == "YES":
                     strategies.delete_rows(row_no)
-                    print(f"{prod} has been deleted from investment sheet")
-                    main()
+                    print(Fore.RED + f"\n")
+                    print(f"{prod} has been deleted from investment sheet\n")
+                    goto_menu()
                 else:
-                    print(Fore.GREEN + f"{prod} not deleted. Still valid!")
-                    main()
+                    print(Fore.GREEN + f"{prod} not deleted. Still valid!\n")
+                    goto_menu()
             else:
-                main()
+                print(Fore.GREEN + f"{prod} not deleted. Still valid!\n")
+                goto_menu()
         else:
             goto_menu()
     else:
