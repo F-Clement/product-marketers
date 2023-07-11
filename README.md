@@ -210,6 +210,6 @@ We have no images on the application. However all images on the readme file itse
 
  The idea to improve sales this way is original and not copied from anywhere. However it is many thanks to code institute "Love Sandwiches" project that we could better understand how to validate data, give feedback if it is invalid before processing.
 
- A lot of free content on the internet with [Stack Overflow](https://stackoverflow.com/) being my favourite.
+ A lot of free content on the internet like [Stack Overflow](https://stackoverflow.com/)
 
 Many thanks to my mentor and the CI Slack Channel for support.

@@ -57,7 +57,7 @@ def product_info(menu):
     """
     strategies = SHEET.worksheet('investment_strategy')
     product_name = strategies.col_values(1)
-    print(Fore.WHITE + "Enter the name of the product.")
+    print(Fore.WHITE + "Enter the name of the product (Case Sensitive!)")
     if menu == "2" or menu == "3":
         print(Fore.GREEN + f"Example: \n{product_name}.\n")
     else:
@@ -75,23 +75,16 @@ def product_info(menu):
         print(Fore.GREEN + f"Investment ratio: {investment_ratio}")
         print("\n")
         if menu == "3":
-            print(Fore.WHITE + f"Hit enter to delete {prod} or enter any")
-            print("othey key to cancel the choice to delete.")
-            delete = input(Fore.RED + "Delete? \n")
-            if delete == "":
-                print(f"Do you really want to delete {prod}?")
-                print("Input 'YES' to confirm delete or enter any other")
-                print(f"key to cancel the choice to delete {prod}")
-                print(Fore.YELLOW + "\n")
-                confirm_delete = input("Confirm delete?\n")
-                if confirm_delete == "YES":
-                    strategies.delete_rows(row_no)
-                    print(Fore.RED + f"\n")
-                    print(f"{prod} has been deleted from investment sheet\n")
-                    goto_menu()
-                else:
-                    print(Fore.GREEN + f"{prod} not deleted. Still valid!\n")
-                    goto_menu()
+            print(Fore.RED + f"Do you really want to delete {prod}?")
+            print("Input 'YES' to confirm delete or enter any other")
+            print(f"key to cancel the choice to delete {prod}")
+            print(Fore.YELLOW + "\n")
+            confirm_delete = input("Confirm delete?\n")
+            if confirm_delete == "YES":
+                strategies.delete_rows(row_no)
+                print(Fore.RED + f"\n")
+                print(f"{prod} has been deleted from investment sheet\n")
+                goto_menu()
             else:
                 print(Fore.GREEN + f"{prod} not deleted. Still valid!\n")
                 goto_menu()
