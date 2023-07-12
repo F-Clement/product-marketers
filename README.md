@@ -74,6 +74,13 @@ A user can always come back to verify that the strategy they are using is actual
 In case a user no longer sells a product, they can always delete it to free up some space. After deleting the user is notified as shown below.
 ![Delete Strategy](images/deleteproduct.png)
 
+
+## Future Features
+
+- A beautiful frontend for this application will make it more user friendly.
+
+- The users should not be limited to only marketers using 4 social media platforms. Users should be given the right to chose number of platforms they market on.
+
 ## Testing
 
 - PEP8 CI Python Linter
