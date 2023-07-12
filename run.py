@@ -32,6 +32,20 @@ def goto_menu():
             pass
 
 
+def check_sales_input(sales, platform):
+    """
+    Immediately check user inputs on sales value for each platform
+    This is to avoid the situation where user makes a mistak and gets
+    to reinput all values including those that he correctly input before
+    """
+    while True:
+        if sales.isdigit():
+            return sales
+        else:
+            print(f"The sales value must be a digit.")
+            sales = input(f"Please input the sales value for {platform}\n")
+
+
 def menu_select():
     """
     User selects a menu item by inputting a number that corresponds
@@ -129,9 +143,13 @@ def get_average_sales(clicks):
         print(Fore.WHITE + f"on each of the following platforms every week?\n")
         print(f"* No: of sales must be less or equal No: of clicks({clicks})")
         facebook = input(Fore.YELLOW + "Facebook:\n")
+        facebook = check_sales_input(facebook, "Facebook")
         youtube = input(Fore.YELLOW + "Youtube:\n")
+        youtube = check_sales_input(youtube, "Youtube")
         instagram = input(Fore.YELLOW + "Instagram:\n")
+        instagram = check_sales_input(instagram, "Instagram")
         tiktok = input(Fore.YELLOW + "TikTok:\n")
+        tiktok = check_sales_input(tiktok, "TikTok")
         print("\n")
         average_sales_values = [facebook, youtube, instagram, tiktok]
         if (validate_sales_count(average_sales_values, clicks)):
